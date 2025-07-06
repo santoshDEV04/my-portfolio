@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LoadingScreen } from "./components/LoadingScreen";
 import CustomCursor from "./components/CustomCursor";
@@ -18,22 +18,67 @@ import SocialSidebar from './components/SocialSidebar';
 const App = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(true); // Default to true for safety
+
+  // Detect if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      // Check multiple conditions for mobile detection
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      
+      // More comprehensive mobile detection
+      const isMobileUserAgent = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|tablet|kindle|silk|playbook|bb10|windows phone/i.test(userAgent.toLowerCase());
+      
+      // Check for touch capability
+      const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      
+      // Check screen size
+      const isSmallScreen = window.innerWidth <= 768;
+      
+      // Check if it's a mobile device OR has touch AND small screen
+      const isMobileDevice = isMobileUserAgent || (hasTouchScreen && isSmallScreen);
+      
+      console.log('Mobile Detection:', {
+        userAgent: userAgent,
+        isMobileUserAgent,
+        hasTouchScreen,
+        isSmallScreen,
+        windowWidth: window.innerWidth,
+        finalResult: isMobileDevice
+      });
+      
+      setIsMobile(isMobileDevice);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
     <>
-      {/* <ParticlesBackground/> */}
-      <Background
-        particleCount={400}
-        particleColors={["#00ffff", "#ff00ff", "#ffffff"]}
-        particleBaseSize={120}
-        moveParticlesOnHover={true}
-        particleHoverFactor={8}
-        alphaParticles={true}
-        // Removed className="pointer-events-none" - this was blocking mouse events
-      />
+      {/* Background - Only render on desktop */}
+      {!isMobile && (
+        <div className="hidden md:block">
+          <Background
+            particleCount={400}
+            particleColors={["#00ffff", "#ff00ff", "#ffffff"]}
+            particleBaseSize={120}
+            moveParticlesOnHover={true}
+            particleHoverFactor={8}
+            alphaParticles={true}
+          />
+        </div>
+      )}
 
       {/* Fixed UI Elements - Always visible */}
-      <CustomCursor />
+      {/* Custom Cursor - Only render on desktop */}
+      {!isMobile && (
+        <div className="hidden md:block">
+          <CustomCursor />
+        </div>
+      )}
       {/* <SplashCursor /> */}
       
       {/* Scroll Progress - Only show after loading */}
