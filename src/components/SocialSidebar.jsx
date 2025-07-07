@@ -45,7 +45,7 @@ const SocialSidebar = () => {
             boxShadow: `0px 0px 12px ${color}`,
           }}
           whileTap={{ scale: 0.95 }}
-          className="w-13 h-13 p-1.5 bg-gradient-to-bl from-purple-600 to-blue-600 hover:bg-black/60 rounded-full flex items-center justify-center transition-all duration-300"
+          className="w-10 h-10 p-1.5 bg-gradient-to-bl from-purple-600 to-blue-600 hover:bg-black/60 rounded-full flex items-center justify-center transition-all duration-300"
         >
           <img src={src} alt={alt} className="w-full h-full object-contain" />
         </motion.a>
