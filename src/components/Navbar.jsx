@@ -185,9 +185,10 @@ const Navbar = () => {
           background: rgba(255, 255, 255, 0.08);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
-          // border: 1px solid rgba(255, 255, 255, 0.12);
-          // box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
-          //   inset 0 1px 0 rgba(255, 255, 255, 0.2);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+          border-left: 1px solid rgba(255, 255, 255, 0.06);
+          // box-shadow: 0 7px 10px rgba(255, 255, 255, 0.20);
+            // inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
         .nav-link {
@@ -203,6 +204,7 @@ const Navbar = () => {
           width: 0;
           height: 2px;
           background: linear-gradient(90deg, #0f0c29, #f472b6, #0f0c29);
+          // background: linear-gradient(90deg, #0f0c29, #00ffffff, #0f0c29);
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           transform: translateX(-50%);
           border-radius: 50%;
@@ -372,14 +374,14 @@ const Navbar = () => {
 
             {/* Desktop Navigation - Glassmorphism Block */}
             <div className="hidden md:flex items-center space-x-6">
-              <div className="glass-nav-block rounded-full px-2 py-6 flex items-center space-x-1 h-14">
+              <div className="glass-nav-block rounded-full px-2 py-6 flex items-center space-x-1 h-10">
                 {["home", "about", "skills", "contact"].map(
                   (section, index) => (
                     <a
                       key={section}
                       href={`#${section}`}
                       ref={(el) => (linkRefs.current[index] = el)}
-                      className={`nav-link px-6 py-2 text-sm font-medium capitalize transition-all duration-300 rounded-full ${
+                      className={`nav-link px-6 py-1.5 text-sm font-medium capitalize transition-all duration-300 rounded-full ${
                         activeSection === section
                           ? "active text-cyan-400"
                           : "text-white/90 hover:text-white"
