@@ -30,7 +30,7 @@ const FooterSection = () => {
   return (
     <footer
       ref={ref}
-      className="w-full bg-gradient-to-t from-purple-800 via-purple-900 to-black text-white px-4 sm:px-6 pt-16 pb-12 relative z-10"
+      className="w-full bg-gradient-to-t from-purple-800/50 via-transparent to-transparent text-white px-4 sm:px-6 pt-16 pb-12 relative z-10"
     >
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -38,9 +38,9 @@ const FooterSection = () => {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="w-full max-w-6xl mx-auto flex flex-col items-center text-center gap-6"
       >
-        <h3 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+        {/* <h3 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
           Let’s build something amazing together
-        </h3>
+        </h3> */}
 
         <div className="flex gap-6">
           {socials.map(({ icon, href, label }) => (
@@ -59,13 +59,13 @@ const FooterSection = () => {
           ))}
         </div>
 
-        <p className="text-sm text-gray-400 mt-4">
-          Made with <span className="text-red-400">❤️</span> by Santosh Kumar Dash
+        <p className="text-sm text-gray-400 mt-2">
+          Made with <span className="text-red-400 ">❤️</span> by Santosh Kumar Dash
         </p>
 
-        <div className="w-full h-px mt-6 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 opacity-20" />
+        <div className="w-full h-px mt-6 bg-gradient-to-r from-trasnparent via-purple-100 to-transparent opacity-100" />
 
-        <p className="text-xs text-gray-500 mt-2">
+        <p className="text-sm text-gray-500 mt-2">
           &copy; {new Date().getFullYear()} Santosh Kumar Dash. All rights reserved.
         </p>
       </motion.div>
