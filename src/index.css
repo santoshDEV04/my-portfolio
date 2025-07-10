@@ -96,3 +96,13 @@ Skills {
   opacity:1;
   transform: translateY(0);
 }
+
+#smooth-wrapper {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+#smooth-content {
+  will-change: transform;
+}

@@ -14,6 +14,7 @@ import Background  from "./components/Background.jsx";
 import SplashCursor from './components/SplashCursor'
 import ScrollProgressBar from "./components/ScrollProgressBar.jsx";
 import SocialSidebar from './components/SocialSidebar';
+import SmoothScrollWrapper from "./components/SmoothScrollWrapper.jsx";
 
 const App = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -100,6 +101,7 @@ const App = () => {
             
             {/* Main Content */}
             <main>
+              <SmoothScrollWrapper>
               <SocialSidebar/>
               <Home />
               <About />
@@ -107,6 +109,7 @@ const App = () => {
               <Contact/>
               <FooterSection/>
               {/* Add more sections as needed */}
+              </SmoothScrollWrapper>
             </main>
           </motion.div>
         )}
