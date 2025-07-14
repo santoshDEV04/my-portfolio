@@ -51,7 +51,7 @@ const SkillsSection = () => {
     { name: 'Git', icon: gitIcon, color: '#F05032', level: 87, description: 'Version Control' },
   ];
 
-  const SkillCard = ({ skill, index, isRevealed }) => {
+  const SkillCard = ({ skill, index, isRevealed, isToolCard = false }) => {
     const [isHovered, setIsHovered] = useState(false);
     const cardRef = useRef(null);
 
@@ -92,7 +92,7 @@ const SkillsSection = () => {
             }}
           />
 
-          {/* Content Container - Fixed Layout */}
+          {/* Content Container - Dynamic layout based on card type */}
           <div className="relative z-10 p-4 h-full flex flex-col justify-between">
             {/* Icon */}
             <div className="flex justify-center mb-2">
@@ -117,31 +117,36 @@ const SkillsSection = () => {
             </div>
 
             {/* Skill Name */}
-            <h4 className={`text-sm font-bold text-center mb-2 transition-all duration-300 ${
+            <h4 className={`text-sm font-bold text-center transition-all duration-300 ${
               isHovered 
                 ? 'text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text' 
                 : 'text-white'
-            }`}>
+            } ${isToolCard ? 'mb-auto' : 'mb-2'}`}>
               {skill.name}
             </h4>
 
-            {/* Progress Bar */}
-            <div className="w-full bg-white/10 rounded-full h-1.5 mb-1">
-              <div
-                className="h-full rounded-full transition-all duration-700 ease-out"
-                style={{
-                  width: isRevealed ? `${skill.level}%` : '0%',
-                  background: `linear-gradient(90deg, ${skill.color}, ${skill.color}cc)`,
-                  boxShadow: `0 0 8px ${skill.color}66`,
-                  transitionDelay: `${index * 100 + 300}ms`,
-                }}
-              />
-            </div>
+            {/* Progress Bar and Level - Only show for skills, not tools */}
+            {!isToolCard && (
+              <>
+                {/* Progress Bar */}
+                <div className="w-full bg-white/10 rounded-full h-1.5 mb-1">
+                  <div
+                    className="h-full rounded-full transition-all duration-700 ease-out"
+                    style={{
+                      width: isRevealed ? `${skill.level}%` : '0%',
+                      background: `linear-gradient(90deg, ${skill.color}, ${skill.color}cc)`,
+                      boxShadow: `0 0 8px ${skill.color}66`,
+                      transitionDelay: `${index * 100 + 300}ms`,
+                    }}
+                  />
+                </div>
 
-            {/* Level */}
-            <div className="text-center">
-              <span className="text-xs text-gray-400 font-medium">{skill.level}%</span>
-            </div>
+                {/* Level */}
+                <div className="text-center">
+                  <span className="text-xs text-gray-400 font-medium">{skill.level}%</span>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Hover Description - Absolutely positioned */}
@@ -229,6 +234,7 @@ const SkillsSection = () => {
                 skill={skill} 
                 index={index}
                 isRevealed={revealedSkills.has(skill.name)}
+                isToolCard={false}
               />
             ))}
           </div>
@@ -253,6 +259,7 @@ const SkillsSection = () => {
                 skill={tool} 
                 index={index + skillsData.length}
                 isRevealed={revealedSkills.has(tool.name)}
+                isToolCard={true}
               />
             ))}
           </div>
