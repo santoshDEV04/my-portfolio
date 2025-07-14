@@ -98,17 +98,16 @@ const App = () => {
           >
             <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
             <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+            <SocialSidebar/>
             
             {/* Main Content */}
             <main>
               <SmoothScrollWrapper>
-              <SocialSidebar/>
               <Home />
               <About />
               <Skills/>
               <Contact/>
               <FooterSection/>
-              {/* Add more sections as needed */}
               </SmoothScrollWrapper>
             </main>
           </motion.div>
