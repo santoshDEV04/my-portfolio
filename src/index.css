@@ -1,7 +1,7 @@
 /* ✅ 1. Import Google Fonts first */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nothing+You+Could+Do&family=Oooh+Baby&display=swap");
-        @import url("https://fonts.googleapis.com/css2 family=Permanent+Marker&display=swap");
+@import url("https://fonts.googleapis.com/css2 family=Permanent+Marker&display=swap");
 
 /* ✅ 2. Import Tailwind after font imports */
 @import "tailwindcss";
@@ -9,9 +9,12 @@
 /* ✅ 3. Base styles */
 * {
   cursor: none !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   font-family: "Poppins", sans-serif; /* You can change this if you prefer Space Grotesk */
@@ -28,7 +31,6 @@ body, html {
   display: none;
 }
 
-
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -41,6 +43,9 @@ textarea:-webkit-autofill:focus {
   caret-color: white;
 }
 
+.timeline-item {
+  will-change: transform;
+}
 
 #root {
   height: 100%;
@@ -63,7 +68,8 @@ textarea:-webkit-autofill:focus {
   }
 
   @keyframes blink {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 1;
     }
     50% {
@@ -93,7 +99,7 @@ Skills {
 }
 
 .reveal.visible {
-  opacity:1;
+  opacity: 1;
   transform: translateY(0);
 }
 

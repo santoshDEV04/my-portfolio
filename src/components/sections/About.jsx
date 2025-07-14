@@ -12,7 +12,7 @@ const useIsMobile = () => {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768); // md breakpoint
+      setIsMobile(window.innerWidth < 768);
     };
 
     checkMobile();
@@ -37,24 +37,28 @@ const FloatingBlob = ({
 
   useEffect(() => {
     const blob = blobRef.current;
-    if (!blob || isMobile) return; // Skip animations on mobile
+    if (!blob || isMobile) return;
 
-    // Simple floating animation only
-    gsap.to(blob, {
+    // Use will-change and transform3d for better performance
+    gsap.set(blob, { 
+      force3D: true,
+      willChange: "transform"
+    });
+
+    const tl = gsap.timeline({ repeat: -1 });
+    
+    tl.to(blob, {
       y: -20,
       duration: duration / 4,
-      repeat: -1,
       yoyo: true,
+      repeat: 1,
       ease: "power2.inOut",
-    });
-
-    // Gentle rotation
-    gsap.to(blob, {
+    })
+    .to(blob, {
       rotation: 360,
       duration: duration,
-      repeat: -1,
       ease: "none",
-    });
+    }, 0);
 
     return () => {
       gsap.killTweensOf(blob);
@@ -69,16 +73,60 @@ const FloatingBlob = ({
   );
 };
 
-// Conditional text animation
+// Use intersection observer instead of framer motion's useInView
+const useCustomInView = (ref, options = {}) => {
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "-50px 0px -50px 0px",
+        ...options,
+      }
+    );
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, [ref, options]);
+
+  return isInView;
+};
+
+// Conditional text animation with better performance
 const AnimatedText = ({ children, className = "", delay = 0 }) => {
   const textRef = useRef(null);
   const isMobile = useIsMobile();
-  const isInView = useInView(textRef, {
-    once: true,
-    margin: "-100px 0px -100px 0px",
-  });
+  const isInView = useCustomInView(textRef);
 
-  // Return static content on mobile
+  useEffect(() => {
+    const element = textRef.current;
+    if (!element || isMobile) return;
+
+    gsap.set(element, {
+      opacity: 0,
+      y: 20,
+      force3D: true,
+    });
+
+    if (isInView) {
+      gsap.to(element, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        delay: delay,
+        ease: "power1.out",
+      });
+    }
+  }, [isInView, isMobile, delay]);
+
   if (isMobile) {
     return (
       <div ref={textRef} className={className}>
@@ -88,29 +136,19 @@ const AnimatedText = ({ children, className = "", delay = 0 }) => {
   }
 
   return (
-    <motion.div
-      ref={textRef}
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{
-        duration: 0.6,
-        delay: delay,
-        ease: "easeOut",
-      }}
-      className={className}
-    >
+    <div ref={textRef} className={className}>
       {children}
-    </motion.div>
+    </div>
   );
 };
 
-// Conditional glitch effect
+// Simplified glitch effect
 const GlitchText = ({ children, className = "" }) => {
   const [isGlitching, setIsGlitching] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    if (isMobile) return; // Skip glitch effect on mobile
+    if (isMobile) return;
 
     const interval = setInterval(() => {
       setIsGlitching(true);
@@ -134,46 +172,75 @@ const GlitchText = ({ children, className = "" }) => {
   );
 };
 
-// Conditional magnetic card
+// Use GSAP for card animations instead of Framer Motion
 const MagneticCard = ({ children, className = "" }) => {
   const cardRef = useRef(null);
   const isMobile = useIsMobile();
-  const isInView = useInView(cardRef, { once: true });
+  const isInView = useCustomInView(cardRef);
 
-  // Return static content on mobile
-  if (isMobile) {
-    return (
-      <div ref={cardRef} className={className}>
-        {children}
-      </div>
-    );
-  }
+  useEffect(() => {
+    const element = cardRef.current;
+    if (!element || isMobile) return;
+
+    gsap.set(element, {
+      opacity: 0,
+      y: 30,
+      force3D: true,
+    });
+
+    if (isInView) {
+      gsap.to(element, {
+        opacity: 1,
+        y: 0,
+        duration: 0.3,
+        ease: "power1.out",
+      });
+    }
+
+    // Hover effect
+    const handleMouseEnter = () => {
+      gsap.to(element, {
+        scale: 1.02,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    };
+
+    const handleMouseLeave = () => {
+      gsap.to(element, {
+        scale: 1,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    };
+
+    element.addEventListener('mouseenter', handleMouseEnter);
+    element.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      element.removeEventListener('mouseenter', handleMouseEnter);
+      element.removeEventListener('mouseleave', handleMouseLeave);
+      gsap.killTweensOf(element);
+    };
+  }, [isInView, isMobile]);
 
   return (
-    <motion.div
-      ref={cardRef}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.2, ease: "easeOut" }}
-      whileHover={{
-        scale: 1.02,
-        transition: { duration: 0.1 },
-      }}
-      className={className}
-    >
+    <div ref={cardRef} className={className}>
       {children}
-    </motion.div>
+    </div>
   );
 };
 
-// Conditional morphing blob
+// Simplified morphing blob
 const LiquidMorphBlob = ({ className = "" }) => {
   const blobRef = useRef();
   const isMobile = useIsMobile();
 
   useEffect(() => {
     const blob = blobRef.current;
-    if (!blob || isMobile) return; // Skip animations on mobile
+    if (!blob || isMobile) return;
+
+    gsap.set(blob, { force3D: true });
 
     gsap.to(blob, {
       borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%",
@@ -201,28 +268,56 @@ export const About = () => {
   const aboutRef = useRef();
   const titleRef = useRef();
   const isMobile = useIsMobile();
-  const isInView = useInView(aboutRef, { once: true });
+  const isInView = useCustomInView(aboutRef);
 
-  // Conditional scroll animations
+  // Simplified scroll animations that work with ScrollSmoother
   useEffect(() => {
-    if (isMobile) return; // Skip scroll animations on mobile
+    if (isMobile) return;
 
     const ctx = gsap.context(() => {
-      // Simple parallax effect
-      gsap.to(".parallax-bg", {
-        yPercent: -20,
-        ease: "none",
-        scrollTrigger: {
-          trigger: aboutRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1,
-        },
-      });
+      // Disable parallax that conflicts with ScrollSmoother
+      // ScrollSmoother handles smooth scrolling effects
+      
+      // Simple fade-in animation for the section
+      gsap.fromTo(aboutRef.current, 
+        { opacity: 0 },
+        { 
+          opacity: 1,
+          duration: 1,
+          scrollTrigger: {
+            trigger: aboutRef.current,
+            start: "top 80%",
+            end: "top 20%",
+            scrub: false,
+            once: true,
+          }
+        }
+      );
     }, aboutRef);
 
     return () => ctx.revert();
   }, [isMobile]);
+
+  // Title animation
+  useEffect(() => {
+    const titleElement = titleRef.current;
+    if (!titleElement || isMobile) return;
+
+    gsap.set(titleElement, {
+      opacity: 0,
+      scale: 0.8,
+      force3D: true,
+    });
+
+    if (isInView) {
+      gsap.to(titleElement, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.8,
+        ease: "power2.out",
+      });
+    }
+  }, [isInView, isMobile]);
 
   const educationJourney = [
     {
@@ -258,14 +353,6 @@ export const About = () => {
     },
   ];
 
-  // Conditional motion wrapper
-  const MotionWrapper = ({ children, ...props }) => {
-    if (isMobile) {
-      return <div className={props.className}>{children}</div>;
-    }
-    return <motion.div {...props}>{children}</motion.div>;
-  };
-
   return (
     <section
       id="about"
@@ -275,7 +362,7 @@ export const About = () => {
     >
       {/* Background Elements - Simplified and responsive */}
       {!isMobile && (
-        <div className="absolute inset-0 parallax-bg">
+        <div className="absolute inset-0">
           <LiquidMorphBlob className="w-32 h-32 sm:w-48 sm:h-48 bottom-20 right-20" />
           <LiquidMorphBlob className="w-40 h-40 sm:w-64 sm:h-64 top-1/3 left-1/6" />
 
@@ -298,15 +385,7 @@ export const About = () => {
 
       {/* Title Section */}
       <div className="text-center z-10">
-        <MotionWrapper
-          ref={titleRef}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={
-            isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }
-          }
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="inline-block"
-        >
+        <div ref={titleRef} className="inline-block">
           <h2
             className="text-4xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 
                bg-clip-text tracking-tight drop-shadow-[0_2px_12px_rgba(255,255,255,0.1)]"
@@ -314,33 +393,16 @@ export const About = () => {
             <GlitchText>About Me</GlitchText>
           </h2>
 
-          {!isMobile ? (
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="h-0.5 w-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 
-                         rounded-full mx-auto"
-            />
-          ) : (
-            <div className="h-0.5 w-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 
-                           rounded-full mx-auto mt-2" />
-          )}
-        </MotionWrapper>
+          <div className="h-0.5 w-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 
+                         rounded-full mx-auto mt-2" />
+        </div>
       </div>
 
       {/* Eye Cursor Section - Only render on desktop */}
       {!isMobile && (
-        <MotionWrapper
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={
-            isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }
-          }
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex justify-center items-center w-full z-10"
-        >
+        <div className="flex justify-center items-center w-full z-10">
           <EyeCursorSection />
-        </MotionWrapper>
+        </div>
       )}
 
       {/* Content Grid */}
@@ -357,21 +419,7 @@ export const About = () => {
               delay={0.1}
             >
               Hey there!
-              {!isMobile ? (
-                <motion.span
-                  animate={{ rotate: [0, 15, -10, 15, 0] }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                    repeatDelay: 0.1,
-                  }}
-                  className="text-3xl sm:text-4xl"
-                >
-                  👋
-                </motion.span>
-              ) : (
-                <span className="text-3xl sm:text-4xl">👋</span>
-              )}
+              <span className="text-3xl sm:text-4xl">👋</span>
             </AnimatedText>
 
             <AnimatedText
@@ -446,7 +494,7 @@ export const About = () => {
 
       {/* Motivations Card */}
       <MagneticCard
-        className="max-w-5xl w-full backdrop-blur-md bg-gradient-to-b from-fuchsia-900/60
+        className="max-w-5xl w-full backdrop-blur-md bg-gradient-to-b from-blue-900/80
              rounded-2xl p-6 transition-all duration-300"
       >
         <AnimatedText
@@ -461,7 +509,7 @@ export const About = () => {
             <AnimatedText
               key={index}
               delay={0.1 + index * 0.1}
-              className={`p-4 rounded-xl bg-gradient-to-b from-sky-800/60 
+              className={`p-4 rounded-xl bg-gradient-to-b from-violet-800 
                           transition-all duration-300 ${!isMobile ? 'hover:scale-105' : ''}`}
             >
               <div className="text-2xl mb-2">{item.icon}</div>
@@ -474,16 +522,7 @@ export const About = () => {
       </MagneticCard>
 
       {/* Bottom gradient line */}
-      {!isMobile ? (
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
-          transition={{ duration: 2, delay: 0.2 }}
-          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full h-0.5 rounded-full bg-gradient-to-r from-transparent via-purple-500 to-transparent shadow-lg opacity-80"
-        />
-      ) : (
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full h-0.5 rounded-full bg-gradient-to-r from-transparent via-purple-500 to-transparent shadow-lg opacity-80" />
-      )}
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full h-0.5 rounded-full bg-gradient-to-r from-transparent via-purple-500 to-transparent shadow-lg opacity-80" />
     </section>
   );
 };
