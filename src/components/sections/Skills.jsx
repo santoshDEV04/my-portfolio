@@ -15,26 +15,46 @@ const SkillsSection = () => {
   const sectionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
   const [revealedSkills, setRevealedSkills] = useState(new Set());
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      const isMobileDevice = window.innerWidth <= 768 || 
+                           /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      setIsMobile(isMobileDevice);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          // Start revealing skills one by one
-          const allSkills = [...skillsData, ...toolsData];
-          allSkills.forEach((skill, index) => {
-            setTimeout(() => {
-              setRevealedSkills(prev => new Set([...prev, skill.name]));
-            }, index * 150);
-          });
+          // On mobile, reveal all skills immediately; on desktop, stagger them
+          if (isMobile) {
+            const allSkills = [...skillsData, ...toolsData];
+            setRevealedSkills(new Set(allSkills.map(skill => skill.name)));
+          } else {
+            // Desktop: Start revealing skills one by one
+            const allSkills = [...skillsData, ...toolsData];
+            allSkills.forEach((skill, index) => {
+              setTimeout(() => {
+                setRevealedSkills(prev => new Set([...prev, skill.name]));
+              }, index * 150);
+            });
+          }
         }
       },
       { threshold: 0.1 }
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
-  }, []);
+  }, [isMobile]);
 
   const skillsData = [
     { name: 'CSS', icon: cssIcon, color: '#1572B6', level: 90, description: 'Styling & Design' },
@@ -55,50 +75,76 @@ const SkillsSection = () => {
     const [isHovered, setIsHovered] = useState(false);
     const cardRef = useRef(null);
 
-    const handleMouseEnter = () => setIsHovered(true);
-    const handleMouseLeave = () => setIsHovered(false);
+    const handleMouseEnter = () => !isMobile && setIsHovered(true);
+    const handleMouseLeave = () => !isMobile && setIsHovered(false);
+
+    // Mobile-specific classes
+    const mobileClasses = isMobile 
+      ? 'transform-none opacity-100 scale-100' 
+      : `transition-all duration-500 ease-out ${
+          isRevealed ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-6 opacity-0 scale-95'
+        }`;
+
+    const hoverEffectsClasses = isMobile 
+      ? '' 
+      : `transition-all duration-300 hover:shadow-2xl hover:border-white/20`;
 
     return (
       <div
         ref={cardRef}
-        className={`relative group cursor-pointer transition-all duration-500 ease-out ${
-          isRevealed ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-6 opacity-0 scale-95'
-        }`}
-        style={{ transitionDelay: `${index * 100}ms` }}
+        className={`relative group cursor-pointer ${mobileClasses}`}
+        style={{ 
+          transitionDelay: isMobile ? '0ms' : `${index * 100}ms`,
+          willChange: isMobile ? 'auto' : 'transform, opacity'
+        }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {/* Glow Effect */}
-        <div
-          className={`absolute inset-0 rounded-xl transition-all duration-300 blur-lg pointer-events-none ${
-            isHovered ? 'opacity-40 scale-105' : 'opacity-0 scale-100'
-          }`}
-          style={{
-            background: `radial-gradient(circle at center, ${skill.color}66, transparent 70%)`,
-          }}
-        />
-
-        {/* Main Card - Fixed Height */}
-        <div className="relative h-32 overflow-visible rounded-xl bg-gradient-to-br from-white/10 via-white/5 to-transparent backdrop-blur-xl shadow-xl border border-white/10 transition-all duration-300 hover:shadow-2xl hover:border-white/20">
-          
-          {/* Animated Background */}
+        {/* Glow Effect - Disabled on mobile */}
+        {!isMobile && (
           <div
-            className={`absolute inset-0 rounded-xl transition-opacity duration-300 ${
-              isHovered ? 'opacity-20' : 'opacity-5'
+            className={`absolute inset-0 rounded-xl transition-all duration-300 blur-lg pointer-events-none ${
+              isHovered ? 'opacity-40 scale-105' : 'opacity-0 scale-100'
             }`}
             style={{
-              background: `conic-gradient(from 0deg, ${skill.color}22, transparent, ${skill.color}11, transparent)`,
-              animation: 'spin-slow 20s linear infinite',
+              background: `radial-gradient(circle at center, ${skill.color}66, transparent 70%)`,
             }}
           />
+        )}
+
+        {/* Main Card - Fixed Height */}
+        <div className={`relative h-32 overflow-visible rounded-xl bg-gradient-to-br from-white/10 via-white/5 to-transparent backdrop-blur-xl shadow-xl border border-white/10 ${hoverEffectsClasses}`}>
+          
+          {/* Animated Background - Disabled on mobile */}
+          {!isMobile && (
+            <div
+              className={`absolute inset-0 rounded-xl transition-opacity duration-300 ${
+                isHovered ? 'opacity-20' : 'opacity-5'
+              }`}
+              style={{
+                background: `conic-gradient(from 0deg, ${skill.color}22, transparent, ${skill.color}11, transparent)`,
+                animation: 'spin-slow 20s linear infinite',
+              }}
+            />
+          )}
+
+          {/* Static background for mobile */}
+          {isMobile && (
+            <div
+              className="absolute inset-0 rounded-xl opacity-10"
+              style={{
+                background: `linear-gradient(135deg, ${skill.color}33, ${skill.color}11)`,
+              }}
+            />
+          )}
 
           {/* Content Container - Dynamic layout based on card type */}
           <div className="relative z-10 p-4 h-full flex flex-col justify-between">
             {/* Icon */}
             <div className="flex justify-center mb-2">
               <div
-                className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 ${
-                  isHovered ? 'scale-110' : 'scale-100'
+                className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                  isMobile ? '' : `transition-all duration-300 ${isHovered ? 'scale-110' : 'scale-100'}`
                 }`}
                 style={{
                   background: `linear-gradient(135deg, ${skill.color}33, ${skill.color}11)`,
@@ -108,19 +154,23 @@ const SkillsSection = () => {
                 <img
                   src={skill.icon}
                   alt={skill.name}
-                  className="w-5 h-5 object-contain transition-all duration-300"
+                  className={`w-5 h-5 object-contain ${isMobile ? '' : 'transition-all duration-300'}`}
                   style={{
-                    filter: isHovered ? `drop-shadow(0 0 6px ${skill.color}66)` : 'none',
+                    filter: (!isMobile && isHovered) ? `drop-shadow(0 0 6px ${skill.color}66)` : 'none',
                   }}
                 />
               </div>
             </div>
 
             {/* Skill Name */}
-            <h4 className={`text-sm font-bold text-center transition-all duration-300 ${
-              isHovered 
-                ? 'text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text' 
-                : 'text-white'
+            <h4 className={`text-sm font-bold text-center ${
+              isMobile 
+                ? 'text-white' 
+                : `transition-all duration-300 ${
+                    isHovered 
+                      ? 'text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text' 
+                      : 'text-white'
+                  }`
             } ${isToolCard ? 'mb-auto' : 'mb-2'}`}>
               {skill.name}
             </h4>
@@ -131,12 +181,14 @@ const SkillsSection = () => {
                 {/* Progress Bar */}
                 <div className="w-full bg-white/10 rounded-full h-1.5 mb-1">
                   <div
-                    className="h-full rounded-full transition-all duration-700 ease-out"
+                    className={`h-full rounded-full ${
+                      isMobile ? '' : 'transition-all duration-700 ease-out'
+                    }`}
                     style={{
-                      width: isRevealed ? `${skill.level}%` : '0%',
+                      width: (isMobile || isRevealed) ? `${skill.level}%` : '0%',
                       background: `linear-gradient(90deg, ${skill.color}, ${skill.color}cc)`,
                       boxShadow: `0 0 8px ${skill.color}66`,
-                      transitionDelay: `${index * 100 + 300}ms`,
+                      transitionDelay: isMobile ? '0ms' : `${index * 100 + 300}ms`,
                     }}
                   />
                 </div>
@@ -149,31 +201,47 @@ const SkillsSection = () => {
             )}
           </div>
 
-          {/* Hover Description - Absolutely positioned */}
-          <div
-            className={`absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 rounded-md text-xs font-medium text-white whitespace-nowrap pointer-events-none transition-all duration-300 z-20 ${
-              isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
-            }`}
-            style={{
-              background: `linear-gradient(135deg, ${skill.color}ee, ${skill.color}cc)`,
-              boxShadow: `0 4px 12px ${skill.color}44`,
-            }}
-          >
-            {skill.description}
-            {/* Arrow */}
+          {/* Hover Description - Only show on desktop */}
+          {!isMobile && (
             <div
-              className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0"
+              className={`absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 rounded-md text-xs font-medium text-white whitespace-nowrap pointer-events-none transition-all duration-300 z-20 ${
+                isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+              }`}
               style={{
-                borderLeft: '4px solid transparent',
-                borderRight: '4px solid transparent',
-                borderTop: `4px solid ${skill.color}ee`,
+                background: `linear-gradient(135deg, ${skill.color}ee, ${skill.color}cc)`,
+                boxShadow: `0 4px 12px ${skill.color}44`,
               }}
-            />
-          </div>
+            >
+              {skill.description}
+              {/* Arrow */}
+              <div
+                className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0"
+                style={{
+                  borderLeft: '4px solid transparent',
+                  borderRight: '4px solid transparent',
+                  borderTop: `4px solid ${skill.color}ee`,
+                }}
+              />
+            </div>
+          )}
+
+          {/* Mobile description - Show as static text below icon */}
+          {isMobile && (
+            <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 text-xs text-gray-400 text-center">
+              {skill.description}
+            </div>
+          )}
         </div>
       </div>
     );
   };
+
+  // Mobile-specific section classes
+  const sectionAnimationClasses = isMobile 
+    ? 'opacity-100 transform-none' 
+    : `transform transition-all duration-700 ${
+        isVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
+      }`;
 
   return (
     <section
@@ -181,21 +249,19 @@ const SkillsSection = () => {
       ref={sectionRef}
       className="relative py-16 px-4 sm:px-6 lg:px-8 w-full overflow-hidden min-h-screen"
     >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
+      {/* Background Pattern - Simplified for mobile */}
+      <div className={`absolute inset-0 ${isMobile ? 'opacity-3' : 'opacity-5'}`}>
         <div className="absolute inset-0" style={{
           backgroundImage: `radial-gradient(circle at 25% 25%, #ffffff 1px, transparent 1px),
                            radial-gradient(circle at 75% 75%, #ffffff 1px, transparent 1px)`,
-          backgroundSize: '50px 50px',
+          backgroundSize: isMobile ? '30px 30px' : '50px 50px',
         }} />
       </div>
 
       <div className="relative max-w-6xl mx-auto space-y-12">
         {/* Header */}
         <div className="text-center space-y-4">
-          <div className={`transform transition-all duration-700 ${
-            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
-          }`}>
+          <div className={sectionAnimationClasses}>
             <h2 className="text-4xl sm:text-5xl font-extrabold leading-tight">
               <span className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
                 Skills
@@ -206,8 +272,12 @@ const SkillsSection = () => {
               </span>
             </h2>
           </div>
-          <div className={`transform transition-all duration-700 delay-200 ${
-            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
+          <div className={`${
+            isMobile 
+              ? 'opacity-100 transform-none' 
+              : `transform transition-all duration-700 delay-200 ${
+                  isVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
+                }`
           }`}>
             <p className="text-gray-400 text-base max-w-xl mx-auto">
               Crafting digital experiences with modern technologies
@@ -217,8 +287,12 @@ const SkillsSection = () => {
 
         {/* Core Skills */}
         <div className="space-y-6">
-          <div className={`transform transition-all duration-700 delay-300 ${
-            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
+          <div className={`${
+            isMobile 
+              ? 'opacity-100 transform-none' 
+              : `transform transition-all duration-700 delay-300 ${
+                  isVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
+                }`
           }`}>
             <div className="flex items-center justify-center space-x-4 mb-6">
               <div className="h-px bg-gradient-to-r from-transparent via-cyan-500 to-transparent flex-1" />
@@ -242,8 +316,12 @@ const SkillsSection = () => {
 
         {/* Development Tools */}
         <div className="space-y-6">
-          <div className={`transform transition-all duration-700 delay-500 ${
-            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
+          <div className={`${
+            isMobile 
+              ? 'opacity-100 transform-none' 
+              : `transform transition-all duration-700 delay-500 ${
+                  isVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
+                }`
           }`}>
             <div className="flex items-center justify-center space-x-4 mb-6">
               <div className="h-px bg-gradient-to-r from-transparent via-orange-500 to-transparent flex-1" />
@@ -267,15 +345,17 @@ const SkillsSection = () => {
       </div>
 
       {/* Bottom Gradient Bar */}
-      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full h-0.5 rounded-full bg-gradient-to-r from-transparent  via-pink-500 to-transparent shadow-lg opacity-80" />
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full h-0.5 rounded-full bg-gradient-to-r from-transparent via-pink-500 to-transparent shadow-lg opacity-80" />
 
-      {/* Optimized Animations */}
-      <style>{`
-        @keyframes spin-slow {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-      `}</style>
+      {/* Optimized Animations - Only load on desktop */}
+      {!isMobile && (
+        <style>{`
+          @keyframes spin-slow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
+      )}
     </section>
   );
 };
