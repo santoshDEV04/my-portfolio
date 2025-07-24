@@ -374,7 +374,7 @@ const Navbar = () => {
 
             {/* Desktop Navigation - Glassmorphism Block */}
             <div className="hidden md:flex items-center space-x-6">
-              <div className="glass-nav-block rounded-full px-2 py-6 flex items-center space-x-1 h-10">
+              <div className="glass-nav-block rounded-full px-2 py-6 flex items-center space-x-6 h-10">
                 {["home", "about", "skills", "contact"].map(
                   (section, index) => (
                     <a
