@@ -96,20 +96,20 @@ const App = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="relative z-0"
           >
+              {/* <SmoothScrollWrapper> */}
             <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
             <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
             <SocialSidebar/>
             
             {/* Main Content */}
             <main>
-              <SmoothScrollWrapper>
               <Home />
               <About />
               <Skills/>
               <Contact/>
               <FooterSection/>
-              </SmoothScrollWrapper>
             </main>
+            {/* </SmoothScrollWrapper> */}
           </motion.div>
         )}
       </AnimatePresence>
