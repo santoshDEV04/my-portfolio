@@ -96,11 +96,6 @@ const App = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="relative z-0"
           >
-<<<<<<< HEAD
-              {/* <SmoothScrollWrapper> */}
-=======
-              <SmoothScrollWrapper>
->>>>>>> d41e2bafca0b31db881b808b74a0300e6f2bdde4
             <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
             <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
             <SocialSidebar/>
@@ -113,11 +108,6 @@ const App = () => {
               <Contact/>
               <FooterSection/>
             </main>
-<<<<<<< HEAD
-            {/* </SmoothScrollWrapper> */}
-=======
-              </SmoothScrollWrapper>
->>>>>>> d41e2bafca0b31db881b808b74a0300e6f2bdde4
           </motion.div>
         )}
       </AnimatePresence>
