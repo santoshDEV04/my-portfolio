@@ -45,7 +45,7 @@ const SkillsSection = () => {
             allSkills.forEach((skill, index) => {
               setTimeout(() => {
                 setRevealedSkills(prev => new Set([...prev, skill.name]));
-              }, index * 150);
+              }, index * 100);
             });
           }
         }
