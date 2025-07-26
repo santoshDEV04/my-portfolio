@@ -410,7 +410,7 @@ export const Home = () => {
           >
             <div className="absolute inset-0 rounded-full bg-purple-500 blur-3xl opacity-80 animate-pulse"></div>
             <img
-              src="/profilepic2.png"
+              src="/profilepic3.png"
               alt="Santosh Profile"
               className="rounded-full object-cover relative z-10 w-full h-full"
             />
