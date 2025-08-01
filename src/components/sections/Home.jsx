@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import CircularText from "../CircularText";
 // import  RevealOnScroll from "./RevealOnScroll";
 
 export const Home = () => {
@@ -95,6 +96,9 @@ export const Home = () => {
 
   return (
     <>
+    <div className="fixed bottom-0 z-50">
+    <CircularText/>
+    </div>
       <style>{`
         @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nothing+You+Could+Do&family=Oooh+Baby&display=swap");
         @import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
