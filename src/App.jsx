@@ -15,6 +15,7 @@ import SplashCursor from './components/SplashCursor'
 import ScrollProgressBar from "./components/ScrollProgressBar.jsx";
 import SocialSidebar from './components/SocialSidebar';
 import SmoothScrollWrapper from "./components/SmoothScrollWrapper.jsx";
+import CircularText from "./components/CircularText.jsx";
 
 const App = () => {
   const [isLoaded, setIsLoaded] = useState(false);

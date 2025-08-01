@@ -112,3 +112,20 @@ Skills {
 #smooth-content {
   will-change: transform;
 }
+
+
+.circle-text {
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  fill: #898989;
+  text-transform: uppercase;
+  font-family: "Poppins", sans-serif;
+}
+
+.circle-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
