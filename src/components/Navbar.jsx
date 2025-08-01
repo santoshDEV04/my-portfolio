@@ -1,10 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-
-// Import your SVG assets
-import homeIcon from '../assets/home.svg';
-import aboutIcon from '../assets/about.svg';
-import skillsIcon from '../assets/skills.svg';
-import contactIcon from '../assets/contact.svg';
+import CircularText from "./CircularText";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -167,15 +162,12 @@ const Navbar = () => {
     }
   };
 
-  // Function to get the appropriate icon for each section
-  const getIcon = (iconType) => {
-    const iconMap = {
-      home: homeIcon,
-      about: aboutIcon,
-      skills: skillsIcon,
-      contact: contactIcon
-    };
-    return iconMap[iconType];
+  // Alternative navigation method using hash
+  const handleHashNavigation = (section) => {
+    window.location.hash = section;
+    if (menuOpen) {
+      setMenuOpen(false);
+    }
   };
 
   return (
@@ -189,7 +181,12 @@ const Navbar = () => {
           border-bottom: 1px solid rgba(255, 255, 255, 0.07);
           border-left: 1px solid rgba(255, 255, 255, 0.06);
           // box-shadow: 0 7px 10px rgba(255, 255, 255, 0.20);
-          // inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            // inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-link {
+          position: relative;
+          overflow: hidden;
         }
 
         .nav-link::before {
@@ -332,86 +329,82 @@ const Navbar = () => {
           border-color: rgba(6, 182, 212, 0.3);
           color: #06b6d4;
         }
-
-        .nav-icon {
-          width: 20px;
-          height: 20px;
-          filter: brightness(0) invert(1);
-          transition: filter 0.3s ease;
-        }
-
-        .nav-link.active .nav-icon {
-          filter: brightness(0) invert(1) sepia(1) saturate(3) hue-rotate(180deg);
-        }
-
-        .nav-link:hover .nav-icon {
-          filter: brightness(0) invert(1) sepia(1) saturate(2) hue-rotate(180deg);
-        }
       `}</style>
 
       <nav
         ref={navbarRef}
-        className={`Navbar fixed top-0 left-0 right-0 pt-1 w-full max-w-screen-xl mx-auto z-50 transition-all duration-300 ${
+        className={`Navbar fixed top-0 left-0 right-0 pt-1 w-full max-w-screen z-50 transition-all duration-300 mx-auto ${
           scrolled ? "navbar-backdrop" : ""
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Desktop Layout - Centered */}
-          <div className="hidden md:flex items-center justify-center h-20">
-            <div className="flex items-center space-x-6">
+          <div className="flex items-center md:justify-center sm:justify-end h-20">
+            {/* Logo */}
+            {/* <a
+              href="#home"
+              className="flex items-center space-x-3 group"
+              ref={logoRef}
+              onClick={(e) => handleNavClick(e, "home")}
+            >
+              <div className="logo-ring relative">
+                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-cyan-400/30 shadow-lg group-hover:border-cyan-400/60 transition-all duration-300">
+                  <img
+                    src="/profilepic2.png"
+                    alt="Santosh Profile"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            </a> */}
+
+            {/* <CircularText/> */}
+
+            {/* Desktop Navigation - Glassmorphism Block */}
+            <div className="hidden md:flex items-center space-x-6">
               <div className="glass-nav-block rounded-full px-2 py-6 flex items-center space-x-6 h-10">
-                {[
-                  { id: "home", icon: "home", label: "Home" },
-                  { id: "about", icon: "about", label: "About" },
-                  { id: "skills", icon: "skills", label: "Skills" },
-                  { id: "contact", icon: "contact", label: "Contact" }
-                ].map((section, index) => (
-                  <a
-                    key={section.id}
-                    href={`#${section.id}`}
-                    ref={(el) => (linkRefs.current[index] = el)}
-                    className={`nav-link overflow-hidden relative px-3 py-2.5 transition-all duration-300 rounded-full ${
-                      activeSection === section.id
-                        ? "active text-cyan-400"
-                        : "text-white/90 hover:text-white"
-                    }`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      const target = document.getElementById(section.id);
-                      if (target) {
-                        target.scrollIntoView({
-                          behavior: "smooth",
-                          block: "start",
-                        });
-                      }
-                    }}
-                    title={section.label}
-                  >
-                    <span className="relative z-10 flex items-center space-x-2">
-                      <img 
-                        src={getIcon(section.icon)} 
-                        alt={section.id}
-                        className="nav-icon w-5 h-5"
-                      />
-                      <span className="text-sm font-medium">{section.label}</span>
-                    </span>
-                  </a>
-                ))}
+                {["home", "about", "skills", "contact"].map(
+                  (section, index) => (
+                    <a
+                      key={section}
+                      href={`#${section}`}
+                      ref={(el) => (linkRefs.current[index] = el)}
+                      className={`nav-link px-6 py-1.5 text-sm font-medium capitalize transition-all duration-300 rounded-full ${
+                        activeSection === section
+                          ? "active text-cyan-400"
+                          : "text-white/90 hover:text-white"
+                      }`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const target = document.getElementById(section);
+                        if (target) {
+                          target.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start",
+                          });
+                        }
+                      }}
+                    >
+                      <span className="sectionName relative z-10 font-extralight">
+                        {section}
+                      </span>
+                    </a>
+                  )
+                )}
               </div>
 
               {/* Enhanced CTA Button */}
               <button
                 className="cta-button px-6 py-3 text-sm font-semibold text-white rounded-full transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:ring-offset-2 focus:ring-offset-transparent"
                 onClick={(e) => {
-                  e.preventDefault();
-                  const target = document.getElementById("contact");
-                  if (target) {
-                    target.scrollIntoView({
-                      behavior: "smooth",
-                      block: "start",
-                    });
-                  }
-                }}
+                        e.preventDefault();
+                        const target = document.getElementById("contact");
+                        if (target) {
+                          target.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start",
+                          });
+                        }
+                      }}
               >
                 <span className="relative z-10 flex items-center space-x-2">
                   <span>Get In Touch</span>
@@ -431,12 +424,10 @@ const Navbar = () => {
                 </span>
               </button>
             </div>
-          </div>
 
-          {/* Mobile Layout - Keep hamburger on the right */}
-          <div className="md:hidden flex items-center justify-end h-20">
+            {/* Mobile menu button */}
             <button
-              className="inline-flex items-center justify-center w-12 h-12 rounded-full text-white hover:text-cyan-400 glass-nav-block transition-all duration-200 hover:scale-105"
+              className="md:hidden inline-flex items-center justify-center w-12 h-12 rounded-full text-white hover:text-cyan-400 glass-nav-block transition-all duration-200 hover:scale-105"
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Toggle menu"
             >
@@ -465,67 +456,39 @@ const Navbar = () => {
         {menuOpen && (
           <div className="md:hidden mobile-menu-enter">
             <div className="glass-mobile-menu">
-              <div className="flex items-center justify-center h-20">
-                <div className="flex items-center space-x-8">
-                  {/* Nav Links */}
-                  <div className="glass-nav-block rounded-full px-2 py-6 flex items-center space-x-6 h-10">
-                    {[
-                      { id: "home", icon: "home" },
-                      { id: "about", icon: "about" },
-                      { id: "skills", icon: "skills" },
-                      { id: "contact", icon: "contact" }
-                    ].map((section) => (
-                      <a
-                        key={section.id}
-                        href={`#${section.id}`}
-                        className={`nav-link p-3 transition-all duration-300 rounded-full ${
-                          activeSection === section.id
-                            ? "active text-cyan-400"
-                            : "text-white/90 hover:text-white"
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          const target = document.getElementById(section.id);
-                          if (target) {
-                            target.scrollIntoView({
-                              behavior: "smooth",
-                              block: "start",
-                            });
-                          }
-                          setMenuOpen(false);
-                        }}
-                        title={section.id.charAt(0).toUpperCase() + section.id.slice(1)}
-                      >
-                        <span className="relative z-10">
-                          <img 
-                            src={getIcon(section.icon)} 
-                            alt={section.id}
-                            className="nav-icon w-5 h-5"
-                          />
-                        </span>
-                      </a>
-                    ))}
-                  </div>
-
-                  {/* CTA Button */}
-                  <button
-                    className="cta-button px-6 py-3 text-sm font-semibold text-white rounded-full transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:ring-offset-2 focus:ring-offset-transparent"
+              <div className="px-6 py-6 space-y-3">
+                {["home", "about", "skills", "contact"].map((section) => (
+                  <a
+                    key={section}
+                    href={`#${section}`}
+                    className={`mobile-nav-item block px-6 py-4 text-base font-medium capitalize rounded-2xl transition-all duration-200 ${
+                      activeSection === section
+                        ? "active"
+                        : "text-white/90 hover:text-white"
+                    }`}
                     onClick={(e) => {
                       e.preventDefault();
-                      const target = document.getElementById("contact");
+                      const target = document.getElementById(section);
                       if (target) {
                         target.scrollIntoView({
                           behavior: "smooth",
                           block: "start",
                         });
                       }
-                      setMenuOpen(false);
                     }}
                   >
-                    <span className="relative z-10 flex items-center space-x-2">
+                    {section}
+                  </a>
+                ))}
+                <div className="pt-4">
+                  <button
+                    className="cta-button w-full px-6 py-4 text-base font-semibold text-white rounded-2xl transition-all duration-200"
+                    onClick={(e) => handleNavClick(e, "contact")}
+                  >
+                    <span className="relative z-10 flex items-center justify-center space-x-2">
                       <span>Get In Touch</span>
                       <svg
-                        className="w-4 h-4 transition-transform group-hover:translate-x-1"
+                        className="w-4 h-4"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
