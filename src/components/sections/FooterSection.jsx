@@ -75,7 +75,7 @@ const FooterSection = () => {
         whileHover={{ scale: 1.1, y: -4 }}
         whileTap={{ scale: 0.95 }}
         onClick={scrollToTop}
-        className="fixed bottom-6 right-6 z-50 p-3 rounded-full 
+        className="fixed bottom-10 right-6 z-50 p-3 rounded-full 
                    bg-gradient-to-r from-pink-600 via-purple-700 to-blue-700 
                    backdrop-blur-md shadow-xl 
                    hover:shadow-purple-500/50 transition-all duration-300"
