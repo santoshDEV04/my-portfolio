@@ -96,7 +96,7 @@ export const Home = () => {
 
   return (
     <>
-    <div className="fixed bottom-4 left-4 z-50">
+    <div className="sm:absolute md:fixed bottom-4 left-4 z-50">
     <CircularText/>
     </div>
       <style>{`
