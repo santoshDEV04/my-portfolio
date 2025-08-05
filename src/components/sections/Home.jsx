@@ -16,11 +16,11 @@ export const Home = () => {
   const [showWave, setShowWave] = useState(false);
 
   const skills = [
-    " <WebDeveloper />",
-    " <ReactDeveloper />",
-    " <ProblemSolver />",
-    " <TechEnthusiast />",
-    " <TechInovator />",
+    " <WebDeveloper/>",
+    " <ReactDeveloper/>",
+    " <ProblemSolver/>",
+    " <TechEnthusiast/>",
+    " <TechInovator/>",
   ];
 
   useEffect(() => {
@@ -101,11 +101,14 @@ export const Home = () => {
     </div>
       <style>{`
         @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nothing+You+Could+Do&family=Oooh+Baby&display=swap");
+
         @import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
+        
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
         .Skills {
-          font-family: Inter;
-          font-weight: 200;
+          font-family: JetBrains Mono;
+          font-weight: 100;
         }
 
         .IM {
