@@ -226,7 +226,7 @@ export const Home = () => {
         transition={{ duration: 1, ease: "easeOut" }}
         className="min-h-screen justify-center flex flex-col md:flex-row items-center md:justify-around relative text-white px-4 z-10 overflow-y-auto bg-transparent"
       >
-        <div className="fixed top-[10vh] md:top-auto md:bottom-4 md:left-4 md:z-50">
+        <div className="md:fixed md:bottom-4 md:left-4 md:z-50">
           <CircularText />
         </div>
 
