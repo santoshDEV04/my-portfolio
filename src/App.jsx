@@ -11,7 +11,7 @@ import Contact  from "./components/sections/Contact";
 import FooterSection from "./components/sections/FooterSection";
 import { ParticlesBackground } from "./components/ParticlesBackground";
 import Background  from "./components/Background.jsx";
-import SplashCursor from './components/SplashCursor'
+import SplashCursor from './components/SplashCursor';
 import ScrollProgressBar from "./components/ScrollProgressBar.jsx";
 import SocialSidebar from './components/SocialSidebar';
 import SmoothScrollWrapper from "./components/SmoothScrollWrapper.jsx";
@@ -27,19 +27,19 @@ const App = () => {
     const checkMobile = () => {
       // Check multiple conditions for mobile detection
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      
+
       // More comprehensive mobile detection
       const isMobileUserAgent = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|tablet|kindle|silk|playbook|bb10|windows phone/i.test(userAgent.toLowerCase());
-      
+
       // Check for touch capability
       const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-      
+
       // Check screen size
       const isSmallScreen = window.innerWidth <= 768;
-      
+
       // Check if it's a mobile device OR has touch AND small screen
       const isMobileDevice = isMobileUserAgent || (hasTouchScreen && isSmallScreen);
-      
+
       console.log('Mobile Detection:', {
         userAgent: userAgent,
         isMobileUserAgent,
@@ -48,7 +48,7 @@ const App = () => {
         windowWidth: window.innerWidth,
         finalResult: isMobileDevice
       });
-      
+
       setIsMobile(isMobileDevice);
     };
 
@@ -82,10 +82,10 @@ const App = () => {
         </div>
       )}
       {/* <SplashCursor /> */}
-      
+
       {/* Scroll Progress - Only show after loading */}
       {isLoaded && <ScrollProgressBar />}
-      
+
       <AnimatePresence mode="wait">
         {!isLoaded ? (
           <LoadingScreen key="loading" onComplete={() => setIsLoaded(true)} />
@@ -100,7 +100,7 @@ const App = () => {
             <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
             <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
             <SocialSidebar/>
-            
+
             {/* Main Content */}
             <main>
               <Home />

@@ -96,14 +96,11 @@ export const Home = () => {
 
   return (
     <>
-    <div className="sm:absolute md:fixed bottom-4 left-4 z-50">
-    <CircularText/>
-    </div>
       <style>{`
         @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nothing+You+Could+Do&family=Oooh+Baby&display=swap");
 
         @import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
-        
+
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
         .Skills {
@@ -229,6 +226,10 @@ export const Home = () => {
         transition={{ duration: 1, ease: "easeOut" }}
         className="min-h-screen justify-center flex flex-col md:flex-row items-center md:justify-around relative text-white px-4 z-10 overflow-y-auto bg-transparent"
       >
+        <div className="fixed top-[10vh] md:top-auto md:bottom-4 md:left-4 md:z-50">
+          <CircularText />
+        </div>
+
         {/* <RevealOnScroll> */}
         <div className="flex flex-col justify-around h-1/2 text-center z-30 max-w-4xl floating-element relative">
           {/* Enhanced heading with waving hand */}

@@ -29,7 +29,7 @@ const vertex = /* glsl */ `
   attribute vec3 position;
   attribute vec4 random;
   attribute vec3 color;
-  
+
   uniform mat4 modelMatrix;
   uniform mat4 viewMatrix;
   uniform mat4 projectionMatrix;
@@ -37,10 +37,10 @@ const vertex = /* glsl */ `
   uniform float uSpread;
   uniform float uBaseSize;
   uniform float uSizeRandomness;
-  
+
   varying vec4 vRandom;
   varying vec3 vColor;
-  
+
   void main() {
   vRandom = random;
   vColor = color;
@@ -74,18 +74,18 @@ const vertex = /* glsl */ `
 
 const fragment = /* glsl */ `
   precision highp float;
-  
+
   uniform float uTime;
   uniform float uAlphaParticles;
   varying vec4 vRandom;
   varying vec3 vColor;
-  
+
   void main() {
     vec2 uv = gl_PointCoord.xy;
     float d = length(uv - vec2(0.5));
     float flicker = 0.8 + 0.2 * sin(uTime * 3.0 + vRandom.x * 10.0);
 
-    
+
     if(uAlphaParticles < 0.5) {
       if(d > 0.5) {
         discard;
