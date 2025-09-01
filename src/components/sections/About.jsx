@@ -15,16 +15,13 @@ const useIsMobile = () => {
     };
 
     checkMobile();
-    window.addEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
 
-    return () => window.removeEventListener('resize', checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   return isMobile;
 };
-
-
-
 
 // Simplified floating blob - only for desktop
 const FloatingBlob = ({
@@ -41,25 +38,28 @@ const FloatingBlob = ({
     const blob = blobRef.current;
     if (!blob || isMobile) return;
 
-    gsap.set(blob, { 
+    gsap.set(blob, {
       force3D: true,
-      willChange: "transform"
+      willChange: "transform",
     });
 
     const tl = gsap.timeline({ repeat: -1 });
-    
+
     tl.to(blob, {
       y: -20,
       duration: duration / 4,
       yoyo: true,
       repeat: 1,
       ease: "power2.inOut",
-    })
-    .to(blob, {
-      rotation: 360,
-      duration: duration,
-      ease: "none",
-    }, 0);
+    }).to(
+      blob,
+      {
+        rotation: 360,
+        duration: duration,
+        ease: "none",
+      },
+      0
+    );
 
     return () => {
       gsap.killTweensOf(blob);
@@ -97,14 +97,15 @@ const AnimatedText = ({ children, className = "", delay = 0 }) => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          gsap.fromTo(element, 
+          gsap.fromTo(
+            element,
             { opacity: 0, y: 20 },
-            { 
-              opacity: 1, 
-              y: 0, 
-              duration: 0.6, 
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
               delay: delay,
-              ease: "power1.out" 
+              ease: "power1.out",
             }
           );
         }
@@ -117,9 +118,11 @@ const AnimatedText = ({ children, className = "", delay = 0 }) => {
   }, [isMobile, delay]);
 
   return (
-    <div 
-      ref={textRef} 
-      className={`${className} ${isMobile ? 'opacity-100' : isVisible ? '' : 'opacity-0'}`}
+    <div
+      ref={textRef}
+      className={`${className} ${
+        isMobile ? "opacity-100" : isVisible ? "" : "opacity-0"
+      }`}
     >
       {children}
     </div>
@@ -144,11 +147,14 @@ const GlitchText = ({ children, className = "" }) => {
 
   return (
     <span
-      className={`${className} ${!isMobile && isGlitching ? "animate-pulse" : ""}`}
+      className={`${className} ${
+        !isMobile && isGlitching ? "animate-pulse" : ""
+      }`}
       style={{
-        textShadow: !isMobile && isGlitching
-          ? "2px 2px 0 #ff00ff, -2px -2px 0 #00ffff"
-          : "none",
+        textShadow:
+          !isMobile && isGlitching
+            ? "2px 2px 0 #ff00ff, -2px -2px 0 #00ffff"
+            : "none",
       }}
     >
       {children}
@@ -177,13 +183,14 @@ const MagneticCard = ({ children, className = "" }) => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          gsap.fromTo(element,
+          gsap.fromTo(
+            element,
             { opacity: 0, y: 30 },
-            { 
-              opacity: 1, 
-              y: 0, 
+            {
+              opacity: 1,
+              y: 0,
               duration: 0.3,
-              ease: "power1.out" 
+              ease: "power1.out",
             }
           );
         }
@@ -210,21 +217,23 @@ const MagneticCard = ({ children, className = "" }) => {
       });
     };
 
-    element.addEventListener('mouseenter', handleMouseEnter);
-    element.addEventListener('mouseleave', handleMouseLeave);
+    element.addEventListener("mouseenter", handleMouseEnter);
+    element.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
       observer.disconnect();
-      element.removeEventListener('mouseenter', handleMouseEnter);
-      element.removeEventListener('mouseleave', handleMouseLeave);
+      element.removeEventListener("mouseenter", handleMouseEnter);
+      element.removeEventListener("mouseleave", handleMouseLeave);
       gsap.killTweensOf(element);
     };
   }, [isMobile]);
 
   return (
-    <div 
-      ref={cardRef} 
-      className={`${className} ${isMobile ? 'opacity-100' : isVisible ? '' : 'opacity-0'}`}
+    <div
+      ref={cardRef}
+      className={`${className} ${
+        isMobile ? "opacity-100" : isVisible ? "" : "opacity-0"
+      }`}
     >
       {children}
     </div>
@@ -260,7 +269,7 @@ const LiquidMorphBlob = ({ className = "" }) => {
   return (
     <div
       ref={blobRef}
-      className={`absolute bg-gradient-to-br from-purple-500/10 to-cyan-500/10 
+      className={`absolute bg-gradient-to-br from-purple-500/10 to-cyan-500/10
                   rounded-full blur-2xl ${className}`}
     />
   );
@@ -276,9 +285,10 @@ export const About = () => {
     if (isMobile) return;
 
     const ctx = gsap.context(() => {
-      gsap.fromTo(aboutRef.current, 
+      gsap.fromTo(
+        aboutRef.current,
         { opacity: 0 },
-        { 
+        {
           opacity: 1,
           duration: 1,
           scrollTrigger: {
@@ -287,7 +297,7 @@ export const About = () => {
             end: "top 20%",
             scrub: false,
             once: true,
-          }
+          },
         }
       );
     }, aboutRef);
@@ -362,35 +372,33 @@ export const About = () => {
   ];
 
   useEffect(() => {
-  if (isMobile) return;
+    if (isMobile) return;
 
-  const hand = document.querySelector(".hand");
-  if (!hand) return;
+    const hand = document.querySelector(".hand");
+    if (!hand) return;
 
-  gsap.set(hand, {
-    transformOrigin: "bottom center",
-    rotate: 0,
-  });
+    gsap.set(hand, {
+      transformOrigin: "bottom center",
+      rotate: 0,
+    });
 
-  const tl = gsap.timeline({ repeat: -1, repeatDelay: 3 });
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 3 });
 
-  tl.to(hand, { rotate: 25, duration: 0.2, ease: "power1.inOut" })
-    .to(hand, { rotate: -15, duration: 0.2, ease: "power1.inOut" })
-    .to(hand, { rotate: 20, duration: 0.2, ease: "power1.inOut" })
-    .to(hand, { rotate: 0, duration: 0.2, ease: "power1.inOut" });
+    tl.to(hand, { rotate: 25, duration: 0.2, ease: "power1.inOut" })
+      .to(hand, { rotate: -15, duration: 0.2, ease: "power1.inOut" })
+      .to(hand, { rotate: 20, duration: 0.2, ease: "power1.inOut" })
+      .to(hand, { rotate: 0, duration: 0.2, ease: "power1.inOut" });
 
-  return () => {
-    gsap.killTweensOf(hand);
-  };
-}, [isMobile]);
-
-  
+    return () => {
+      gsap.killTweensOf(hand);
+    };
+  }, [isMobile]);
 
   return (
     <section
       id="about"
       ref={aboutRef}
-      className="relative min-h-screen flex flex-col items-center justify-center 
+      className="relative min-h-screen flex flex-col items-center justify-center
                  gap-6 sm:gap-8 px-4 py-12 sm:py-16 sm:px-6 lg:px-8 overflow-hidden"
     >
       {/* Background Elements - Desktop only */}
@@ -414,15 +422,18 @@ export const About = () => {
         />
       </div>
 
-      {/* Title Section */}
       <div className="text-center z-10">
         <div ref={titleRef} className="inline-block">
-          <h2 className="text-4xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 
-               bg-clip-text tracking-tight drop-shadow-[0_2px_12px_rgba(255,255,255,0.1)]">
+          <h2
+            className="text-4xl md:text-6xl lg:text-7xl font-extrabold bg-gradient-to-r from-cyan-400 to-pink-500 bg-clip-text text-transparent tracking-tight drop-shadow-sm"
+          >
             <GlitchText>About Me</GlitchText>
           </h2>
-          <div className="h-0.5 w-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 
-                         rounded-full mx-auto mt-2" />
+
+          <div
+            className="h-0.5 w-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400
+                         rounded-full mx-auto mt-2"
+          />
         </div>
       </div>
 
@@ -436,38 +447,58 @@ export const About = () => {
       {/* Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 max-w-6xl w-full gap-6 z-10">
         {/* Introduction Card */}
-        <MagneticCard className="group backdrop-blur-md bg-gradient-to-b from-purple-600/80 to-transparent
-             rounded-2xl p-6 hover:shadow-white/5 transition-all duration-300 
-             hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]">
+        <MagneticCard
+          className="group backdrop-blur-md bg-gradient-to-b from-purple-600/80 to-transparent
+             rounded-2xl p-6 hover:shadow-white/5 transition-all duration-300
+             hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]"
+        >
           <div className="space-y-4">
             <AnimatedText
-  className="text-xl sm:text-2xl font-semibold text-white mb-4 flex items-center gap-3 relative"
-  delay={0.1}
->
-  Hey there!
-  <span className="hand text-3xl sm:text-4xl inline-block origin-bottom">👋</span>
-</AnimatedText>
-
-
-            <AnimatedText className="text-gray-200 text-base leading-relaxed" delay={0.2}>
-              I'm{" "}
-              <span className="text-transparent bg-gradient-to-r from-cyan-400 to-purple-400 
-                              bg-clip-text font-semibold">
-                Santosh Kumar Dash
+              className="text-xl sm:text-2xl font-semibold text-white mb-4 flex items-center gap-3 relative"
+              delay={0.1}
+            >
+              Hey there!
+              <span className="hand text-3xl sm:text-4xl inline-block origin-bottom">
+                👋
               </span>
-              , a passionate Full Stack Developer with expertise in React, Node.js, and cutting-edge web technologies.
             </AnimatedText>
 
-            <AnimatedText className="text-gray-200 text-base leading-relaxed" delay={0.3}>
-              I thrive on building clean, performant applications that transform complex ideas into seamless digital experiences. With a strong focus on efficiency, problem-solving, and user-centric design, I craft solutions that make an impact.
+            <AnimatedText
+              className="text-gray-200 text-base leading-relaxed"
+              delay={0.2}
+            >
+              I'm{" "}
+              <span
+                className="text-transparent bg-gradient-to-r from-cyan-400 to-purple-400
+                              bg-clip-text font-semibold"
+              >
+                Santosh Kumar Dash
+              </span>
+              , a passionate Full Stack Developer with expertise in React,
+              Node.js, and cutting-edge web technologies.
+            </AnimatedText>
+
+            <AnimatedText
+              className="text-gray-200 text-base leading-relaxed"
+              delay={0.3}
+            >
+              I thrive on building clean, performant applications that transform
+              complex ideas into seamless digital experiences. With a strong
+              focus on efficiency, problem-solving, and user-centric design, I
+              craft solutions that make an impact.
             </AnimatedText>
           </div>
         </MagneticCard>
 
         {/* Education Card */}
-        <MagneticCard className="backdrop-blur-sm bg-gradient-to-b from-indigo-700/50 to-transparent
-                     rounded-2xl p-6 transition-all duration-300">
-          <AnimatedText className="text-xl font-semibold text-white mb-6 text-center" delay={0.1}>
+        <MagneticCard
+          className="backdrop-blur-sm bg-gradient-to-b from-indigo-700/50 to-transparent
+                     rounded-2xl p-6 transition-all duration-300"
+        >
+          <AnimatedText
+            className="text-xl font-semibold text-white mb-6 text-center"
+            delay={0.1}
+          >
             Educational Journey
           </AnimatedText>
 
@@ -478,10 +509,16 @@ export const About = () => {
                 delay={0.2 + index * 0.1}
                 className="timeline-item"
               >
-                <div className={`flex items-start gap-4 p-4 rounded-xl bg-gradient-to-b from-cyan-700/30 to-transparent
-                               transition-all duration-300 ${!isMobile ? 'hover:scale-105' : ''}`}>
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${edu.color} 
-                                  flex items-center justify-center text-2xl flex-shrink-0`}>
+                <div
+                  className={`flex items-start gap-4 p-4 rounded-xl bg-gradient-to-b from-cyan-700/30 to-transparent
+                               transition-all duration-300 ${
+                                 !isMobile ? "hover:scale-105" : ""
+                               }`}
+                >
+                  <div
+                    className={`w-12 h-12 rounded-xl bg-gradient-to-br ${edu.color}
+                                  flex items-center justify-center text-2xl flex-shrink-0`}
+                  >
                     {edu.icon}
                   </div>
                   <div className="flex-1">
@@ -502,9 +539,14 @@ export const About = () => {
       </div>
 
       {/* Motivations Card */}
-      <MagneticCard className="max-w-5xl w-full backdrop-blur-md bg-gradient-to-b from-blue-800/80 to-transparent
-             rounded-2xl p-6 transition-all duration-300">
-        <AnimatedText className="text-xl font-semibold text-white mb-6 text-center" delay={0.1}>
+      <MagneticCard
+        className="max-w-5xl w-full backdrop-blur-md bg-gradient-to-b from-blue-800/80 to-transparent
+             rounded-2xl p-6 transition-all duration-300"
+      >
+        <AnimatedText
+          className="text-xl font-semibold text-white mb-6 text-center"
+          delay={0.1}
+        >
           What Drives Me
         </AnimatedText>
 
@@ -515,7 +557,9 @@ export const About = () => {
               delay={0.1 + index * 0.1}
               className={`p-4 rounded-xl bg-gradient-to-b  from-violet-700
                 to-transparent
-                          transition-all duration-300 ${!isMobile ? 'hover:scale-105' : ''}`}
+                          transition-all duration-300 ${
+                            !isMobile ? "hover:scale-105" : ""
+                          }`}
             >
               <div className="text-2xl mb-2">{item.icon}</div>
               <p className="text-gray-200 text-sm leading-relaxed">

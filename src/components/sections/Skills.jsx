@@ -10,6 +10,12 @@ import vscodeIcon from '../../assets/VsCode.svg';
 import leetcodeIcon from '../../assets/leetcode.svg';
 import gitIcon from '../../assets/gitv.svg';
 import nodeIcon from '../../assets/nodejs.svg';
+import postmanIcon from '../../assets/postman.svg'
+import tsIcon from '../../assets/typescript.svg'
+import pyIcon from "../../assets/python.svg"
+import jIcon from "../../assets/java.svg"
+import nextIcon from "../../assets/nextjs.svg"
+import mongoIcon from "../../assets/mongo.svg"
 
 const SkillsSection = () => {
   const sectionRef = useRef(null);
@@ -20,7 +26,7 @@ const SkillsSection = () => {
   // Detect if device is mobile
   useEffect(() => {
     const checkMobile = () => {
-      const isMobileDevice = window.innerWidth <= 768 || 
+      const isMobileDevice = window.innerWidth <= 768 ||
                            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       setIsMobile(isMobileDevice);
     };
@@ -59,16 +65,22 @@ const SkillsSection = () => {
   const skillsData = [
     { name: 'CSS', icon: cssIcon, color: '#1572B6', level: 90, description: 'Styling & Design' },
     { name: 'JavaScript', icon: jsIcon, color: '#F7DF1E', level: 85, description: 'Dynamic Programming' },
+    { name: 'TypeScript', icon: tsIcon, color: '#3178C6', level: 75, description: 'Typed JavaScript' },
     { name: 'React', icon: reactIcon, color: '#61DAFB', level: 92, description: 'Component Architecture' },
+    { name: 'Next.js', icon: nextIcon, color: '#f2f2f2', level: 80, description: 'SSR & SSG Framework' },
     { name: 'Tailwind', icon: tailwindIcon, color: '#06B6D4', level: 88, description: 'Utility-First CSS' },
     { name: 'Node.js', icon: nodeIcon, color: '#339933', level: 80, description: 'Server-Side Runtime' },
+    { name: 'MongoDB', icon: mongoIcon, color: '#47A248', level: 78, description: 'NoSQL Database' },
+    { name: 'Python', icon: pyIcon, color: '#3776AB', level: 65, description: 'AI/ML & Backend' },
+    { name: 'Java', icon: jIcon, color: '#E34F26', level: 60, description: 'OOP & Backend Basics' },
   ];
 
-  const toolsData = [
+   const toolsData = [
     { name: 'VS Code', icon: vscodeIcon, color: '#007ACC', level: 95, description: 'Code Editor' },
+    { name: 'Git', icon: gitIcon, color: '#F05032', level: 87, description: 'Version Control' },
     { name: 'LeetCode', icon: leetcodeIcon, color: '#FFA116', level: 75, description: 'Problem Solving' },
     { name: 'Figma', icon: figmaIcon, color: '#F24E1E', level: 82, description: 'UI/UX Design' },
-    { name: 'Git', icon: gitIcon, color: '#F05032', level: 87, description: 'Version Control' },
+    { name: 'Postman', icon: postmanIcon, color: '#FF6C37', level: 78, description: 'API Testing' },
   ];
 
   const SkillCard = ({ skill, index, isRevealed, isToolCard = false }) => {
@@ -79,21 +91,21 @@ const SkillsSection = () => {
     const handleMouseLeave = () => !isMobile && setIsHovered(false);
 
     // Mobile-specific classes
-    const mobileClasses = isMobile 
-      ? 'transform-none opacity-100 scale-100' 
+    const mobileClasses = isMobile
+      ? 'transform-none opacity-100 scale-100'
       : `transition-all duration-500 ease-out ${
           isRevealed ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-6 opacity-0 scale-95'
         }`;
 
-    const hoverEffectsClasses = isMobile 
-      ? '' 
+    const hoverEffectsClasses = isMobile
+      ? ''
       : `transition-all duration-300 hover:shadow-2xl hover:border-white/20`;
 
     return (
       <div
         ref={cardRef}
         className={`relative group cursor-pointer ${mobileClasses}`}
-        style={{ 
+        style={{
           transitionDelay: isMobile ? '0ms' : `${index * 100}ms`,
           willChange: isMobile ? 'auto' : 'transform, opacity'
         }}
@@ -113,8 +125,14 @@ const SkillsSection = () => {
         )}
 
         {/* Main Card - Fixed Height */}
-        <div className={`relative h-32 overflow-visible rounded-xl bg-gradient-to-br from-white/10 via-white/5 to-transparent backdrop-blur-xl shadow-xl border border-white/10 ${hoverEffectsClasses}`}>
-          
+        {/* Main Card - Dynamic Height instead of fixed h-32 */}
+<div
+  className={`relative min-h-[9rem] md:min-h-[10rem] overflow-visible rounded-xl
+  bg-gradient-to-b from-white/10 via-white/5 to-transparent
+  backdrop-blur-xl shadow-xl ${hoverEffectsClasses}`}
+>
+
+
           {/* Animated Background - Disabled on mobile */}
           {!isMobile && (
             <div
@@ -164,11 +182,11 @@ const SkillsSection = () => {
 
             {/* Skill Name */}
             <h4 className={`text-sm font-bold text-center ${
-              isMobile 
-                ? 'text-white' 
+              isMobile
+                ? 'text-white'
                 : `transition-all duration-300 ${
-                    isHovered 
-                      ? 'text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text' 
+                    isHovered
+                      ? 'text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text'
                       : 'text-white'
                   }`
             } ${isToolCard ? 'mb-auto' : 'mb-2'}`}>
@@ -188,7 +206,7 @@ const SkillsSection = () => {
                       width: (isMobile || isRevealed) ? `${skill.level}%` : '0%',
                       background: `linear-gradient(90deg, ${skill.color}, ${skill.color}cc)`,
                       boxShadow: `0 0 8px ${skill.color}66`,
-                      transitionDelay: isMobile ? '0ms' : `${index * 100 + 300}ms`,
+                      transitionDelay: isMobile ? '0ms' : `${index * 10 + 300}ms`,
                     }}
                   />
                 </div>
@@ -225,20 +243,20 @@ const SkillsSection = () => {
             </div>
           )}
 
-          {/* Mobile description - Show as static text below icon */}
+          {/* Mobile description - Show as static text below icon
           {isMobile && (
             <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 text-xs text-gray-400 text-center">
               {skill.description}
             </div>
-          )}
+          )} */}
         </div>
       </div>
     );
   };
 
   // Mobile-specific section classes
-  const sectionAnimationClasses = isMobile 
-    ? 'opacity-100 transform-none' 
+  const sectionAnimationClasses = isMobile
+    ? 'opacity-100 transform-none'
     : `transform transition-all duration-700 ${
         isVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
       }`;
@@ -273,8 +291,8 @@ const SkillsSection = () => {
             </h2>
           </div>
           <div className={`${
-            isMobile 
-              ? 'opacity-100 transform-none' 
+            isMobile
+              ? 'opacity-100 transform-none'
               : `transform transition-all duration-700 delay-200 ${
                   isVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
                 }`
@@ -288,8 +306,8 @@ const SkillsSection = () => {
         {/* Core Skills */}
         <div className="space-y-6">
           <div className={`${
-            isMobile 
-              ? 'opacity-100 transform-none' 
+            isMobile
+              ? 'opacity-100 transform-none'
               : `transform transition-all duration-700 delay-300 ${
                   isVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
                 }`
@@ -300,12 +318,12 @@ const SkillsSection = () => {
               <div className="h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent flex-1" />
             </div>
           </div>
-          
+
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
             {skillsData.map((skill, index) => (
-              <SkillCard 
-                key={skill.name} 
-                skill={skill} 
+              <SkillCard
+                key={skill.name}
+                skill={skill}
                 index={index}
                 isRevealed={revealedSkills.has(skill.name)}
                 isToolCard={false}
@@ -317,8 +335,8 @@ const SkillsSection = () => {
         {/* Development Tools */}
         <div className="space-y-6">
           <div className={`${
-            isMobile 
-              ? 'opacity-100 transform-none' 
+            isMobile
+              ? 'opacity-100 transform-none'
               : `transform transition-all duration-700 delay-500 ${
                   isVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
                 }`
@@ -329,12 +347,12 @@ const SkillsSection = () => {
               <div className="h-px bg-gradient-to-r from-transparent via-red-500 to-transparent flex-1" />
             </div>
           </div>
-          
+
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {toolsData.map((tool, index) => (
-              <SkillCard 
-                key={tool.name} 
-                skill={tool} 
+              <SkillCard
+                key={tool.name}
+                skill={tool}
                 index={index + skillsData.length}
                 isRevealed={revealedSkills.has(tool.name)}
                 isToolCard={true}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const FULL_TEXT = "Hello World";
+const FULL_TEXT = "🚀Booting Up";
 
 export const LoadingScreen = ({ onComplete }) => {
   const [text, setText] = useState("");
