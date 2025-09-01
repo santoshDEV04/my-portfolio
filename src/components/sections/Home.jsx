@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import CircularText from "../CircularText";
+import { FileDown } from "lucide-react";
 // import  RevealOnScroll from "./RevealOnScroll";
 
 export const Home = () => {
@@ -311,7 +312,7 @@ export const Home = () => {
             }}
             className="flex flex-col sm:flex-row justify-center items-center space-y-6 sm:space-y-0 sm:space-x-8"
           >
-            {/* View Skills Button */}
+            {/* download resume Button */}
             <motion.div
               whileHover={{
                 scale: 1.1,
@@ -321,25 +322,16 @@ export const Home = () => {
               transition={{ type: "spring", stiffness: 400, damping: 20 }}
             >
               <motion.a
-                href="#skills"
+                href="/resume.pdf"
+                download="Santosh_Kumar_Dash_Resume.pdf"
                 className="block bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600 px-6 py-4 text-sm font-semibold rounded-full shadow-lg transition-all cursor-pointer glow-effect relative overflow-hidden group items-center gap-2"
               >
+                {/* Shiny hover effect */}
                 <motion.div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-                <span className="relative z-10 flex items-center gap-4">
-                  Skills
-                  <svg
-                    className="w-5 h-5 text-white transition-transform duration-300 transform group-hover:translate-x-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 8l4 4m0 0l-4 4m4-4H3"
-                    />
-                  </svg>
+
+                <span className="relative z-10 flex items-center gap-3">
+                  Resume
+                  <FileDown className="w-5 h-5 text-white" />
                 </span>
               </motion.a>
             </motion.div>
