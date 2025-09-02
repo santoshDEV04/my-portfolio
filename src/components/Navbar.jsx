@@ -17,6 +17,7 @@ const Navbar = () => {
     // 🔊 Play click sound
     if (audioRef.current) {
       audioRef.current.currentTime = 0; // restart sound if clicked fast
+      audioRef.current.volume = 1;
       audioRef.current.play().catch((err) => console.log("Audio play error:", err));
     }
 

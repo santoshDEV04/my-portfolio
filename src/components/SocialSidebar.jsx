@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 
 import linkedinIcon from '../assets/linkedIn.svg';
@@ -28,6 +28,16 @@ const socials = [
 ];
 
 const SocialSidebar = () => {
+  const hoverSoundRef = useRef(new Audio("public/sounds/hover.mp3"))
+
+  const handleHover = () => {
+    if (hoverSoundRef.current) {
+      hoverSoundRef.current.currentTime = 0;
+      hoverSoundRef.current.volume = 1;
+      hoverSoundRef.current.play().catch((err) => console.log("Handle Hover Sound Error : ", err));
+    }
+  }
+
   return (
     <div className="fixed right-4 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-4 p-3 bg-transparent backdrop-blur-md rounded-2xl shadow-2xl">
       {socials.map(({ href, src, alt, color }, index) => (
@@ -38,7 +48,7 @@ const SocialSidebar = () => {
           rel="noopener noreferrer"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration:0.1, ease: 'anticipate' }}
+          transition={{ duration:0, ease: 'anticipate' }}
           whileHover={{
             scale: 1.2,
             rotate: 5,
@@ -46,6 +56,7 @@ const SocialSidebar = () => {
           }}
           whileTap={{ scale: 0.95 }}
           className="w-10 h-10 p-1.5 bg-gradient-to-bl from-purple-600 to-blue-600 hover:bg-black/60 rounded-full flex items-center justify-center transition-all duration-300"
+          onMouseEnter={handleHover}
         >
           <img src={src} alt={alt} className="w-full h-full object-contain" />
         </motion.a>

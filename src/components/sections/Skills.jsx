@@ -22,6 +22,8 @@ const SkillsSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [revealedSkills, setRevealedSkills] = useState(new Set());
   const [isMobile, setIsMobile] = useState(false);
+  const hoveraudioRef = useRef(new Audio("public/sounds/hover.mp3"));
+
 
   // Detect if device is mobile
   useEffect(() => {
@@ -180,7 +182,16 @@ const SkillsSection = () => {
     const [isHovered, setIsHovered] = useState(false);
     const cardRef = useRef(null);
 
-    const handleMouseEnter = () => !isMobile && setIsHovered(true);
+    const handleMouseEnter = () => {
+      !isMobile && setIsHovered(true);
+
+      if (hoveraudioRef.current) {
+      hoveraudioRef.current.volume = 1;
+      hoveraudioRef.current.currentTime = 0;
+      hoveraudioRef.current.play().catch((err) => console.log("Hover audio error: ", err));
+    }
+
+    };
     const handleMouseLeave = () => !isMobile && setIsHovered(false);
 
     // Mobile-specific classes
@@ -206,6 +217,7 @@ const SkillsSection = () => {
         }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+
       >
         {/* Glow Effect - Disabled on mobile */}
         {!isMobile && (
@@ -448,7 +460,7 @@ const SkillsSection = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
             {toolsData.map((tool, index) => (
               <SkillCard
                 key={tool.name}
