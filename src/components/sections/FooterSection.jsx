@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 import { motion, useInView } from "framer-motion";
 import up from "../../assets/up.svg";
+import { ArrowUp } from "lucide-react"
 
 const socials = [
   {
@@ -30,7 +31,7 @@ const FooterSection = () => {
   return (
     <footer
       ref={ref}
-      className="w-full bg-gradient-to-t from-purple-800/50 via-transparent to-transparent text-white px-4 sm:px-6 pt-16 pb-12 relative z-10"
+      className="w-full bg-gradient-to-t from-purple-800/50 via-transparent to-transparent text-white px-4 sm:px-6 pt-16 pb-12 relative z-1"
     >
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -50,8 +51,8 @@ const FooterSection = () => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={label}
-              className="text-2xl p-3 rounded-full bg-white/5 
-                         transition-all duration-300 hover:scale-110 
+              className="text-2xl p-3 rounded-full bg-white/5
+                         transition-all duration-300 hover:scale-110
                          hover:ring-2 hover:ring-purple-500 hover:bg-purple-600/30"
             >
               {icon}
@@ -75,10 +76,10 @@ const FooterSection = () => {
         whileHover={{ scale: 1.1, y: -4 }}
         whileTap={{ scale: 0.95 }}
         onClick={scrollToTop}
-        className="fixed bottom-10 right-6 z-50 p-3 rounded-full 
-                   bg-gradient-to-r from-pink-600 via-purple-700 to-blue-700 
-                   backdrop-blur-md shadow-xl 
-                   hover:shadow-purple-500/50 transition-all duration-300"
+        className="fixed bottom-10 right-6 z-50 p-3 rounded-full
+                   bg-white
+                   backdrop-blur-md shadow-xl
+                   transition-all duration-100"
       >
         <img src={up} alt="Scroll to top" className="w-5 h-5" />
       </motion.button>

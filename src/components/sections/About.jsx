@@ -399,7 +399,7 @@ export const About = () => {
       id="about"
       ref={aboutRef}
       className="relative min-h-screen flex flex-col items-center justify-center
-                 gap-6 sm:gap-8 px-4 py-12 sm:py-16 sm:px-6 lg:px-8 overflow-hidden"
+                 gap-6 sm:gap-8 px-4 py-12 sm:py-16 sm:px-6 lg:px-8 overflow-hidden z-[1]"
     >
       {/* Background Elements - Desktop only */}
       <div className="absolute inset-0">

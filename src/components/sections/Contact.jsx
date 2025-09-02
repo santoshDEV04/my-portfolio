@@ -2,7 +2,16 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import emailjs from "emailjs-com";
 import InteractiveGlobe from "./InteractiveGlobe.jsx";
-import { Send, Mail, User, MessageSquare, CheckCircle, AlertCircle, Globe, Smartphone } from "lucide-react";
+import {
+  Send,
+  Mail,
+  User,
+  MessageSquare,
+  CheckCircle,
+  AlertCircle,
+  Globe,
+  Smartphone,
+} from "lucide-react";
 
 const SERVICE_ID = "service_r4xsdbv";
 const TEMPLATE_ID = "template_qdqhala";
@@ -12,32 +21,45 @@ const ContactSection = () => {
   const formRef = useRef();
   const [status, setStatus] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
+  const handlesubmitSound = useRef(new Audio("/sounds/messagesent.mp3"));
 
   // Detect if device is mobile
   useEffect(() => {
     const checkMobile = () => {
-      const isMobileDevice = window.innerWidth <= 1024 || 
-                           /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const isMobileDevice =
+        window.innerWidth <= 1024 ||
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        );
       setIsMobile(isMobileDevice);
     };
 
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    setStatus(null);
+  e.preventDefault();
+  setStatus(null);
 
-    emailjs
-      .sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, PUBLIC_KEY)
-      .then(() => {
-        setStatus("success");
-        formRef.current.reset();
-      })
-      .catch(() => setStatus("error"));
-  };
+  emailjs
+    .sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, PUBLIC_KEY)
+    .then(() => {
+      setStatus("success");
+      formRef.current.reset();
+
+      if (handlesubmitSound?.current) {
+        handlesubmitSound.current.currentTime = 0;
+        handlesubmitSound.current.volume = 1;
+        handlesubmitSound.current.play().catch((err) =>
+          console.log("Error Playing Sound:", err)
+        );
+      }
+    })
+    .catch(() => setStatus("error"));
+};
+
 
   // Mobile placeholder component
   const MobilePlaceholder = () => (
@@ -45,7 +67,7 @@ const ContactSection = () => {
       initial={{ opacity: 0, scale: 0.9 }}
       whileInView={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="w-full flex justify-center items-center"
+      className="w-full flex justify-center items-center "
     >
       <div className="relative flex flex-col items-center justify-center p-8 bg-gradient-to-br from-cyan-400/10 via-purple-500/10 to-pink-500/10 rounded-2xl border border-white/10 backdrop-blur-sm">
         {/* Mobile-friendly illustration */}
@@ -59,14 +81,14 @@ const ContactSection = () => {
           <div className="absolute top-1/2 -left-4 w-2 h-2 bg-purple-400 rounded-full animate-pulse" />
           <div className="absolute top-1/4 -right-4 w-2 h-2 bg-orange-400 rounded-full animate-pulse" />
         </div>
-        
+
         <div className="text-center space-y-2">
           <h3 className="text-xl font-semibold text-white">Let's Connect</h3>
           <p className="text-gray-400 text-sm max-w-xs">
             Ready to collaborate on your next project? Drop me a message!
           </p>
         </div>
-        
+
         {/* Decorative elements */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-4 left-4 w-1 h-1 bg-cyan-400 rounded-full animate-ping" />
@@ -80,7 +102,7 @@ const ContactSection = () => {
   return (
     <section
       id="contact"
-      className="min-h-screen w-full px-6 sm:px-8 py-16 flex flex-col justify-center items-center text-white relative z-10 bg-transparent"
+      className="min-h-screen w-full px-6 sm:px-8 py-16 flex flex-col justify-center items-center text-white relative z-1 bg-transparent"
     >
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
@@ -92,10 +114,11 @@ const ContactSection = () => {
         <div className="w-full h-0.5 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-full mt-2" />
       </motion.h2>
 
-      <div className={`w-full max-w-6xl mt-36 flex ${
-        isMobile ? 'flex-col' : 'flex-col-reverse lg:flex-row'
-      } items-center justify-center gap-12 lg:gap-20`}>
-        
+      <div
+        className={`w-full max-w-6xl mt-36 flex ${
+          isMobile ? "flex-col" : "flex-col-reverse lg:flex-row"
+        } items-center justify-center gap-12 lg:gap-20`}
+      >
         {/* Form */}
         <motion.form
           ref={formRef}
@@ -167,7 +190,7 @@ const ContactSection = () => {
             >
               <AlertCircle size={16} /> Something went wrong. Try again.
             </motion.p>
-            )}
+          )}
         </motion.form>
 
         {/* Conditional Rendering: 3D Globe for Desktop, Placeholder for Mobile */}

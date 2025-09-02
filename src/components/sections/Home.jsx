@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import CircularText from "../CircularText";
 import { FileDown } from "lucide-react";
+import { createPortal } from "react-dom";
 // import  RevealOnScroll from "./RevealOnScroll";
 
 export const Home = () => {
@@ -16,6 +17,7 @@ export const Home = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [nameVisible, setNameVisible] = useState(false);
   const [showWave, setShowWave] = useState(false);
+  const [tooltip, setTooltip] = useState({ show: false, x: 0, y: 0 });
 
 
   const skills = [
@@ -236,7 +238,7 @@ export const Home = () => {
         transition={{ duration: 1, ease: "easeOut" }}
         className="min-h-screen justify-center flex flex-col md:flex-row items-center md:justify-around relative text-white px-4 z-10 overflow-y-auto bg-transparent"
       >
-        <div className="md:fixed md:bottom-4 md:left-4 z-100000">
+        <div className="md:fixed md:bottom-4 md:left-4 z-[99999]">
           <CircularText />
         </div>
 
@@ -393,40 +395,60 @@ export const Home = () => {
           className="relative z-20 mb-6 flex justify-center"
         >
           <motion.div
-            className="relative w-24 h-24 md:w-72 md:h-72 hidden md:block cursor-pointer"
-            onMouseMove={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              const centerX = rect.left + rect.width / 2;
-              const centerY = rect.top + rect.height / 2;
-              const mouseX = e.clientX - centerX;
-              const mouseY = e.clientY - centerY;
+  className="relative w-24 h-24 md:w-72 md:h-72 hidden md:block cursor-pointer"
+  onMouseMove={(e) => {
+    // 3D hover effect
+    const rect = e.currentTarget.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const mouseX = e.clientX - centerX;
+    const mouseY = e.clientY - centerY;
 
-              const rotateX = (mouseY / rect.height) * -30; // Inverted for natural feel
-              const rotateY = (mouseX / rect.width) * 30;
+    const rotateX = (mouseY / rect.height) * -30;
+    const rotateY = (mouseX / rect.width) * 30;
 
-              e.currentTarget.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform =
-                "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
-            }}
-            transition={{
-              type: "spring",
-              stiffness: 300,
-              damping: 20,
-            }}
-            style={{
-              transformStyle: "preserve-3d",
-              transition: "transform 0.3s ease-out",
-            }}
-          >
-            <div className="absolute inset-0 rounded-full bg-purple-500 blur-3xl opacity-80 animate-pulse"></div>
-            <img
-              src="/profilepic2.png"
-              alt="Santosh Profile"
-              className="rounded-full object-cover relative z-10 w-full h-full"
-            />
-          </motion.div>
+    e.currentTarget.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+
+    // 🔥 Update tooltip position while moving
+    setTooltip({ show: true, x: e.clientX, y: e.clientY });
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.transform =
+      "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
+    // 🔥 Hide tooltip
+    setTooltip({ show: false, x: 0, y: 0 });
+  }}
+  transition={{
+    type: "spring",
+    stiffness: 300,
+    damping: 20,
+  }}
+  style={{
+    transformStyle: "preserve-3d",
+    transition: "transform 0.3s ease-out",
+  }}
+>
+  <div className="absolute inset-0 rounded-full bg-purple-500 blur-3xl opacity-80 animate-pulse"></div>
+
+  <img
+    src="/profilepic2.png"
+    alt="Santosh Profile"
+    className="rounded-full object-cover relative z-10 w-full h-full"
+  />
+
+  {tooltip.show &&
+    createPortal(
+      <div
+        className="fixed bg-black text-white text-sm px-2 py-1 rounded-md pointer-events-none shadow-lg z-[11000]"
+        style={{ top: tooltip.y - 10, left: tooltip.x - 63 }}
+      >
+        soft MAN 😎
+      </div>,
+      document.getElementById("tooltip-root")
+    )}
+</motion.div>
+
+
         </motion.div>
         {/* </RevealOnScroll> */}
         <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full h-0.5 rounded-full bg-gradient-to-r from-transparent via-purple-500 to-transparent shadow-lg opacity-80" />
