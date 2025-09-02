@@ -296,8 +296,6 @@ const SkillsSection = () => {
             >
               {skill.name}
             </h4>
-
-            {/* Progress Bar and Level - Only show for skills, not tools */}
           </div>
 
           {/* Hover Description - Only show on desktop */}
