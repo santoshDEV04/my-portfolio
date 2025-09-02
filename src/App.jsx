@@ -9,9 +9,9 @@ import { About } from "./components/sections/About";
 import Skills  from "./components/sections/Skills";
 import Contact  from "./components/sections/Contact";
 import FooterSection from "./components/sections/FooterSection";
-import { ParticlesBackground } from "./components/ParticlesBackground";
+
 import Background  from "./components/Background.jsx";
-import SplashCursor from './components/SplashCursor';
+
 import ScrollProgressBar from "./components/ScrollProgressBar.jsx";
 import SocialSidebar from './components/SocialSidebar';
 import SmoothScrollWrapper from "./components/SmoothScrollWrapper.jsx";
@@ -81,7 +81,7 @@ const App = () => {
           <CustomCursor />
         </div>
       )}
-      {/* <SplashCursor /> */}
+
 
       {/* Scroll Progress - Only show after loading */}
       {isLoaded && <ScrollProgressBar />}

@@ -427,7 +427,7 @@ export const ParticlesBackground = () => {
     const handleScroll = () => {
       const canvas = canvasRef.current;
       if (!canvas) return;
-      
+
       // Update canvas height if document height changed
       const newHeight = Math.max(
         document.documentElement.scrollHeight,
