@@ -9,7 +9,7 @@ const Navbar = () => {
   const linkRefs = useRef([]);
   const sectionRefs = useRef([]);
   const [activeSection, setActiveSection] = useState("home");
-  const audioRef = useRef(new Audio("public/sounds/click.mp3"));
+  const audioRef = useRef(new Audio("/sounds/click.mp3"));
 
   const handleClick = (e, section) => {
     e.preventDefault();
@@ -389,7 +389,7 @@ const Navbar = () => {
           key={section}
           href={`#${section}`}
           ref={(el) => (linkRefs.current[index] = el)}
-          className={`nav-link px-6 py-1.5 text-sm font-medium capitalize transition-all duration-300 rounded-full ${
+          className={`nav-link px-6 py-1.5 text-sm font-medium capitalize transition-all duration-300 rounded-full tracking-widest ${
             activeSection === section
               ? "active text-cyan-400"
               : "text-white/90 hover:text-white"

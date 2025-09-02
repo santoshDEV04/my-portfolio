@@ -14,10 +14,10 @@ const CircularText = () => {
         });
     }, []);
 
-    const text = "✦ MERN Developer ✦ Creative ✦ Designer";
+    const text = "✦ MERN Developer ✦  WEBSITE  Design ";
 
     return (
-        <div className="circle-wrapper w-[100px] h-[100px] relative flex items-center justify-center">
+        <div className="circle-wrapper w-[110px] h-[110px] relative flex items-center justify-center tracking-widest">
             <svg
                 viewBox="0 0 200 200"
                 className="circle-svg absolute top-0 left-0 w-full h-full"
