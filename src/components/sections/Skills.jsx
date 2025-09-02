@@ -22,7 +22,7 @@ const SkillsSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [revealedSkills, setRevealedSkills] = useState(new Set());
   const [isMobile, setIsMobile] = useState(false);
-  const hoveraudioRef = useRef(new Audio("public/sounds/hover.mp3"));
+  const hoveraudioRef = useRef(new Audio("/sounds/hover.mp3"));
 
 
   // Detect if device is mobile

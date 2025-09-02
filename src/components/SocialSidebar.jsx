@@ -28,7 +28,7 @@ const socials = [
 ];
 
 const SocialSidebar = () => {
-  const hoverSoundRef = useRef(new Audio("public/sounds/hover.mp3"))
+  const hoverSoundRef = useRef(new Audio("/sounds/hover.mp3"))
 
   const handleHover = () => {
     if (hoverSoundRef.current) {
