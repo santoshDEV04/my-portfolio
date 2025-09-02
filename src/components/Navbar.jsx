@@ -9,6 +9,26 @@ const Navbar = () => {
   const linkRefs = useRef([]);
   const sectionRefs = useRef([]);
   const [activeSection, setActiveSection] = useState("home");
+  const audioRef = useRef(null);
+
+  const handleClick = (e, section) => {
+    e.preventDefault();
+
+    // 🔊 Play click sound
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0; // restart sound if clicked fast
+      audioRef.current.play().catch((err) => console.log("Audio play error:", err));
+    }
+
+    // 📜 Smooth scroll
+    const target = document.getElementById(section);
+    if (target) {
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
@@ -362,35 +382,27 @@ const Navbar = () => {
             {/* Desktop Navigation - Glassmorphism Block */}
             <div className="hidden md:flex items-center space-x-6">
               <div className="glass-nav-block rounded-full px-2 py-6 flex items-center space-x-6 h-10">
-                {["home", "about", "skills", "contact"].map(
-                  (section, index) => (
-                    <a
-                      key={section}
-                      href={`#${section}`}
-                      ref={(el) => (linkRefs.current[index] = el)}
-                      className={`nav-link px-6 py-1.5 text-sm font-medium capitalize transition-all duration-300 rounded-full ${
-                        activeSection === section
-                          ? "active text-cyan-400"
-                          : "text-white/90 hover:text-white"
-                      }`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        const target = document.getElementById(section);
-                        if (target) {
-                          target.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start",
-                          });
-                        }
-                      }}
-                    >
-                      <span className="sectionName relative z-10 font-extralight">
-                        {section}
-                      </span>
-                    </a>
-                  )
-                )}
-              </div>
+      {["home", "about", "skills", "contact"].map((section, index) => (
+        <a
+          key={section}
+          href={`#${section}`}
+          ref={(el) => (linkRefs.current[index] = el)}
+          className={`nav-link px-6 py-1.5 text-sm font-medium capitalize transition-all duration-300 rounded-full ${
+            activeSection === section
+              ? "active text-cyan-400"
+              : "text-white/90 hover:text-white"
+          }`}
+          onClick={(e) => handleClick(e, section)}
+        >
+          <span className="sectionName relative z-10 font-extralight">
+            {section}
+          </span>
+        </a>
+      ))}
+
+      {/* 🔈 Hidden audio element */}
+      <audio ref={audioRef} src="/sounds/click.mp3" preload="auto" />
+    </div>
 
               {/* Enhanced CTA Button */}
               <button
