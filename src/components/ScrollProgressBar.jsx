@@ -96,22 +96,6 @@ export const ScrollProgressBar = () => {
             style={{ height: `${scrollPercent}%` }}
           />
         </div>
-
-        {/* Floating Percentage */}
-        <div
-          className={`absolute left-4 top-0 bg-slate-900/90 backdrop-blur text-white text-xs px-2 py-1 rounded-md border border-slate-700 shadow-md transition-all duration-300 ${
-            isVisible && scrollPercent > 5
-              ? "opacity-100 translate-x-0"
-              : "opacity-0 -translate-x-2"
-          }`}
-          style={{
-            top: `${Math.max(0, Math.min(scrollPercent - 4, 95))}%`,
-            transform: `translateY(-50%)`,
-          }}
-        >
-          <span ref={percentageRef}>{displayPercent}</span>%
-          <div className="absolute left-[-6px] top-1/2 -translate-y-1/2 w-0 h-0 border-r-[6px] border-r-slate-900/90 border-t-[4px] border-t-transparent border-b-[4px] border-b-transparent" />
-        </div>
       </div>
 
       {/* Circular Ring Progress */}

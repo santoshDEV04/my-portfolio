@@ -9,17 +9,10 @@ const Navbar = () => {
   const linkRefs = useRef([]);
   const sectionRefs = useRef([]);
   const [activeSection, setActiveSection] = useState("home");
-  const audioRef = useRef(null);
+  const audioRef = useRef(new Audio("public/sounds/click.mp3"));
 
   const handleClick = (e, section) => {
     e.preventDefault();
-
-    // 🔊 Play click sound
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0; // restart sound if clicked fast
-      audioRef.current.volume = 1;
-      audioRef.current.play().catch((err) => console.log("Audio play error:", err));
-    }
 
     // 📜 Smooth scroll
     const target = document.getElementById(section);
@@ -28,6 +21,14 @@ const Navbar = () => {
         behavior: "smooth",
         block: "start",
       });
+    }
+  }
+
+  const handleHover = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.volume = 1;
+      audioRef.current.play().catch((err) => console.log("Audio play error:", err));
     }
   }
 
@@ -394,6 +395,7 @@ const Navbar = () => {
               : "text-white/90 hover:text-white"
           }`}
           onClick={(e) => handleClick(e, section)}
+          onMouseEnter={handleHover}
         >
           <span className="sectionName relative z-10 font-extralight">
             {section}

@@ -17,6 +17,7 @@ export const Home = () => {
   const [nameVisible, setNameVisible] = useState(false);
   const [showWave, setShowWave] = useState(false);
 
+
   const skills = [
     " <WebDeveloper/>",
     " <ReactDeveloper/>",
@@ -328,6 +329,7 @@ export const Home = () => {
               }}
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 400, damping: 20 }}
+
             >
               <audio ref={resumeaudioRef} src="/sounds/resumedownload.mp3"/>
               <motion.a

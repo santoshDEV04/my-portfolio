@@ -234,9 +234,7 @@ const SkillsSection = () => {
         {/* Main Card - Fixed Height */}
         {/* Main Card - Dynamic Height instead of fixed h-32 */}
         <div
-          className={`relative min-h-[9rem] md:min-h-[10rem] overflow-visible rounded-xl
-  bg-gradient-to-b from-white/10 via-white/5 to-transparent
-  backdrop-blur-xl shadow-xl ${hoverEffectsClasses}`}
+          className={`relative min-h-[9rem] md:min-h-[10rem] overflow-visible rounded-xl backdrop-blur-xl shadow-xl ${hoverEffectsClasses}`}
         >
           {/* Animated Background - Disabled on mobile */}
           {!isMobile && (
