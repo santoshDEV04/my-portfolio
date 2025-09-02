@@ -10,6 +10,7 @@ export const Home = () => {
   const buttonsRef = useRef(null);
   const cursorRef = useRef(null);
   const skillsCursorRef = useRef(null);
+  const resumeaudioRef = useRef(null);
 
   const [displayedSkills, setDisplayedSkills] = useState("");
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -94,6 +95,13 @@ export const Home = () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };
   }, []);
+
+  const handleresumeClick = () => {
+    if (resumeaudioRef.current) {
+      resumeaudioRef.current.currentTime = 0;
+      resumeaudioRef.current.play().catch((err) => console.log("Audio play error: ",err))
+    }
+  }
 
   return (
     <>
@@ -321,9 +329,11 @@ export const Home = () => {
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 400, damping: 20 }}
             >
+              <audio ref={resumeaudioRef} src="public\sounds\resumedownload.wav"/>
               <motion.a
                 href="/resume.pdf"
                 download="Santosh_Kumar_Dash_Resume.pdf"
+                onClick={handleresumeClick}
                 className="block bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600 px-6 py-4 text-sm font-semibold rounded-full shadow-lg transition-all cursor-pointer glow-effect relative overflow-hidden group items-center gap-2"
               >
                 {/* Shiny hover effect */}
