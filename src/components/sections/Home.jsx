@@ -329,7 +329,7 @@ export const Home = () => {
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 400, damping: 20 }}
             >
-              <audio ref={resumeaudioRef} src="public\sounds\resumedownload.wav"/>
+              <audio ref={resumeaudioRef} src="public\sounds\resumedownload.mp3"/>
               <motion.a
                 href="/resume.pdf"
                 download="Santosh_Kumar_Dash_Resume.pdf"
