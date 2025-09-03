@@ -21,12 +21,26 @@ const socials = [
 const FooterSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
+  const whooshSoundRef = useRef(new Audio("/sounds/whoosh.mp3"));
 
-  const scrollToTop = () => {
+  const scrollHandler = () => {
+    if (whooshSoundRef.current) {
+      whooshSoundRef.current.currentTime = 0;
+      whooshSoundRef.current.volume = 1;
+      whooshSoundRef.current.play().catch((err) => console.log("Error in Playing whoosh sound")) ;
+
+    }
+
     if (typeof window !== "undefined") {
       document.documentElement.scrollTo({ top: 0, behavior: "smooth" });
     }
-  };
+  }
+
+  // const scrollToTop = () => {
+  //   if (typeof window !== "undefined") {
+  //     document.documentElement.scrollTo({ top: 0, behavior: "smooth" });
+  //   }
+  // };
 
   return (
     <footer
@@ -75,7 +89,7 @@ const FooterSection = () => {
       <motion.button
         whileHover={{ scale: 1.1, y: -4 }}
         whileTap={{ scale: 0.95 }}
-        onClick={scrollToTop}
+        onClick={scrollHandler}
         className="fixed bottom-10 right-6 z-50 p-3 rounded-full
                    bg-white
                    backdrop-blur-md shadow-xl
