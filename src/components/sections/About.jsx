@@ -403,13 +403,13 @@ export const About = () => {
       <div className="text-center z-10">
         <div ref={titleRef} className="inline-block">
           <h2
-            className="text-4xl md:text-6xl lg:text-7xl font-extrabold bg-gradient-to-r from-cyan-400 to-pink-500 bg-clip-text text-transparent tracking-tight drop-shadow-sm"
+            className="text-4xl sm:text-5xl font-extrabold leading-tight bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent drop-shadow-lg"
           >
             <GlitchText>About Me</GlitchText>
           </h2>
 
           <div
-            className="h-0.5 w-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400
+            className="h-0.5 w-full bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400
                          rounded-full mx-auto mt-2"
           />
         </div>

@@ -14,6 +14,7 @@ import ScrollProgressBar from './components/ScrollProgressBar.jsx';
 import SocialSidebar from './components/SocialSidebar';
 import SmoothScrollWrapper from './components/SmoothScrollWrapper.jsx';
 import CircularText from './components/CircularText.jsx';
+import Project from './components/sections/Projects.jsx';
 
 const App = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -107,6 +108,7 @@ const App = () => {
                   <Home />
                   <About />
                   <Skills />
+                  <Project />
                   <Contact />
                   <FooterSection />
                 </SmoothScrollWrapper>
@@ -116,6 +118,7 @@ const App = () => {
                   <Home />
                   <About />
                   <Skills />
+                  <Project />
                   <Contact />
                   <FooterSection />
                 </>

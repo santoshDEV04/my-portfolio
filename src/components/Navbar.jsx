@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import CircularText from "./CircularText";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -7,39 +6,63 @@ const Navbar = () => {
   const navbarRef = useRef(null);
   const logoRef = useRef(null);
   const linkRefs = useRef([]);
-  const sectionRefs = useRef([]);
   const [activeSection, setActiveSection] = useState("home");
-  const audioRef = useRef(new Audio("/sounds/click.mp3"));
+  const audioRef = useRef(null);
+
+  // Initialize audio
+  useEffect(() => {
+    audioRef.current = new Audio("/sounds/click.mp3");
+    audioRef.current.volume = 0.3;
+  }, []);
 
   const handleClick = (e, section) => {
     e.preventDefault();
 
-    // 📜 Smooth scroll
+    // Close mobile menu if open
+    if (menuOpen) {
+      setMenuOpen(false);
+    }
+
+    // Play sound
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch((err) => console.log("Audio play error:", err));
+    }
+
+    // Find the target section
     const target = document.getElementById(section);
     if (target) {
-      target.scrollIntoView({
+      const navHeight = navbarRef.current?.offsetHeight || 80;
+      const targetPosition = target.offsetTop;
+
+      window.scrollTo({
+        top: targetPosition,
         behavior: "smooth",
-        block: "start",
       });
+
+      // Update active section immediately for better UX
+      setActiveSection(section);
+    } else {
+      console.error(`Section "${section}" not found`);
     }
-  }
+  };
 
   const handleHover = () => {
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
-      audioRef.current.volume = 1;
       audioRef.current.play().catch((err) => console.log("Audio play error:", err));
     }
-  }
+  };
 
+  // Handle body overflow for mobile menu
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
-
     return () => {
       document.body.style.overflow = "auto";
     };
   }, [menuOpen]);
 
+  // Handle scroll detection
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 20;
@@ -50,33 +73,34 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Initial animation
   useEffect(() => {
-    // Smooth initial animation
     const navbar = navbarRef.current;
     const logo = logoRef.current;
     const links = linkRefs.current;
 
-    if (navbar && logo && links.length) {
+    if (navbar) {
       navbar.style.transform = "translateY(-100%)";
       navbar.style.opacity = "0";
 
       setTimeout(() => {
-        navbar.style.transition =
-          "all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+        navbar.style.transition = "all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
         navbar.style.transform = "translateY(0)";
         navbar.style.opacity = "1";
       }, 100);
 
-      setTimeout(() => {
-        logo.style.opacity = "0";
-        logo.style.transform = "translateY(-10px)";
-        logo.style.transition = "all 0.6s ease-out";
-
+      if (logo) {
         setTimeout(() => {
-          logo.style.opacity = "1";
-          logo.style.transform = "translateY(0)";
-        }, 50);
-      }, 400);
+          logo.style.opacity = "0";
+          logo.style.transform = "translateY(-10px)";
+          logo.style.transition = "all 0.6s ease-out";
+
+          setTimeout(() => {
+            logo.style.opacity = "1";
+            logo.style.transform = "translateY(0)";
+          }, 50);
+        }, 400);
+      }
 
       links.forEach((link, index) => {
         if (link) {
@@ -93,117 +117,58 @@ const Navbar = () => {
     }
   }, []);
 
+  // Intersection Observer for active section detection
   useEffect(() => {
-    // Use a timeout to ensure sections are loaded
+    let observer;
+
     const setupObserver = () => {
       const sections = document.querySelectorAll("section[id]");
-      console.log(
-        "Found sections:",
-        Array.from(sections).map((s) => s.id)
-      ); // Debug log
 
       if (sections.length === 0) {
-        // Retry after a short delay if no sections found
+        // Retry after sections are loaded
         setTimeout(setupObserver, 1000);
         return;
       }
 
-      sectionRefs.current = Array.from(sections);
-
-      const observer = new IntersectionObserver(
+      observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               const sectionId = entry.target.getAttribute("id");
-              console.log("Active section:", sectionId); // Debug log
               setActiveSection(sectionId);
             }
           });
         },
         {
           root: null,
-          rootMargin: "-50px 0px -50px 0px",
+          rootMargin: "-100px 0px -50px 0px", // Adjust these values as needed
           threshold: 0.3,
         }
       );
 
-      sectionRefs.current.forEach((section) => {
-        if (section) {
-          observer.observe(section);
-        }
+      sections.forEach((section) => {
+        observer.observe(section);
       });
-
-      return () => {
-        observer.disconnect();
-      };
     };
 
-    const cleanup = setupObserver();
-    return cleanup;
-  }, []);
+    setupObserver();
 
-  const handleNavClick = (e, section) => {
-    e.preventDefault();
-    console.log("Clicking on section:", section); // Debug log
-
-    // First try to find the section
-    let target = document.getElementById(section);
-
-    if (!target) {
-      // If not found, try with different selectors
-      target =
-        document.querySelector(`section[id="${section}"]`) ||
-        document.querySelector(`[data-section="${section}"]`) ||
-        document.querySelector(`.${section}-section`);
-    }
-
-    console.log("Target element:", target); // Debug log
-
-    if (target) {
-      const navHeight = navbarRef.current?.offsetHeight || 80;
-      const targetPosition = target.offsetTop - navHeight;
-
-      console.log("Scrolling to position:", targetPosition); // Debug log
-
-      window.scrollTo({
-        top: targetPosition,
-        behavior: "smooth",
-      });
-
-      // Close mobile menu if open
-      if (menuOpen) {
-        setMenuOpen(false);
+    return () => {
+      if (observer) {
+        observer.disconnect();
       }
-    } else {
-      console.error(
-        `Section "${section}" not found. Available sections:`,
-        Array.from(document.querySelectorAll("section[id], [id]"))
-          .map((el) => el.id)
-          .filter(Boolean)
-      );
-    }
-  };
-
-  // Alternative navigation method using hash
-  const handleHashNavigation = (section) => {
-    window.location.hash = section;
-    if (menuOpen) {
-      setMenuOpen(false);
-    }
-  };
+    };
+  }, []);
 
   return (
     <>
       <style>{`
-
         .glass-nav-block {
           background: rgba(255, 255, 255, 0.08);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
           border-bottom: 1px solid rgba(255, 255, 255, 0.07);
           border-left: 1px solid rgba(255, 255, 255, 0.06);
-          // box-shadow: 0 7px 10px rgba(255, 255, 255, 0.20);
-            // inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
         .nav-link {
@@ -219,7 +184,6 @@ const Navbar = () => {
           width: 0;
           height: 2px;
           background: linear-gradient(90deg, #0f0c29, #f472b6, #0f0c29);
-          // background: linear-gradient(90deg, #0f0c29, #00ffffff, #0f0c29);
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           transform: translateX(-50%);
           border-radius: 50%;
@@ -233,7 +197,6 @@ const Navbar = () => {
         .nav-link.active {
           color: #ffffff;
           text-shadow: 0 0 10px white;
-          // background: linear-gradient(135deg, rgba(99, 102, 241, 0.16), rgba(255, 255, 255, 0.04));
           background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(103, 232, 249, 0.06));
         }
 
@@ -272,8 +235,7 @@ const Navbar = () => {
         .cta-button {
           position: relative;
           overflow: hidden;
-          background:linear-gradient(135deg, #3b0764, #1e1b4b);
-          // border: 1px solid rgba(255, 255, 255, 0.2);
+          background: linear-gradient(135deg, #3b0764, #1e1b4b);
           box-shadow: 0 8px 24px rgba(6, 182, 212, 0.2),
             inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
@@ -324,10 +286,6 @@ const Navbar = () => {
           transform-origin: center;
         }
 
-        .text-glow {
-          text-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
-        }
-
         .glass-mobile-menu {
           background: rgba(13, 13, 13, 0.85);
           backdrop-filter: blur(20px);
@@ -355,71 +313,38 @@ const Navbar = () => {
 
       <nav
         ref={navbarRef}
-        className={`Navbar fixed top-0 left-0 right-0 pt-1 w-full max-w-screen z-50 transition-all duration-300 mx-auto ${
-          scrolled ? "navbar-backdrop" : ""
+        className={`fixed top-0 left-0 right-0 pt-1 w-full z-50 transition-all duration-300
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center md:justify-center sm:justify-end h-20">
-            {/* Logo */}
-            {/* <a
-              href="#home"
-              className="flex items-center space-x-3 group"
-              ref={logoRef}
-              onClick={(e) => handleNavClick(e, "home")}
-            >
-              <div className="logo-ring relative">
-                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-cyan-400/30 shadow-lg group-hover:border-cyan-400/60 transition-all duration-300">
-                  <img
-                    src="/profilepic2.png"
-                    alt="Santosh Profile"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-7">
+              <div className="glass-nav-block rounded-full px-2 py-6 flex items-center space-x-2 h-10">
+                {["home", "about", "skills", "projects", "contact"].map((section, index) => (
+                  <a
+                    key={section}
+                    href={`#${section}`}
+                    ref={(el) => (linkRefs.current[index] = el)}
+                    className={`nav-link px-6 py-1.5 text-sm font-medium capitalize transition-all duration-300 rounded-full tracking-widest ${
+                      activeSection === section
+                        ? "active text-cyan-400"
+                        : "text-white/90 hover:text-white"
+                    }`}
+                    onClick={(e) => handleClick(e, section)}
+                    onMouseEnter={handleHover}
+                  >
+                    <span className="relative z-10 font-extralight">
+                      {section}
+                    </span>
+                  </a>
+                ))}
               </div>
-            </a> */}
 
-            {/* <CircularText/> */}
-
-            {/* Desktop Navigation - Glassmorphism Block */}
-            <div className="hidden md:flex items-center space-x-6">
-              <div className="glass-nav-block rounded-full px-2 py-6 flex items-center space-x-6 h-10">
-      {["home", "about", "skills", "contact"].map((section, index) => (
-        <a
-          key={section}
-          href={`#${section}`}
-          ref={(el) => (linkRefs.current[index] = el)}
-          className={`nav-link px-6 py-1.5 text-sm font-medium capitalize transition-all duration-300 rounded-full tracking-widest ${
-            activeSection === section
-              ? "active text-cyan-400"
-              : "text-white/90 hover:text-white"
-          }`}
-          onClick={(e) => handleClick(e, section)}
-          onMouseEnter={handleHover}
-        >
-          <span className="sectionName relative z-10 font-extralight">
-            {section}
-          </span>
-        </a>
-      ))}
-
-      {/* 🔈 Hidden audio element */}
-      <audio ref={audioRef} src="/sounds/click.mp3" preload="auto" />
-    </div>
-
-              {/* Enhanced CTA Button */}
+              {/* CTA Button */}
               <button
-                className="cta-button px-6 py-3 text-sm font-semibold text-white rounded-full transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:ring-offset-2 focus:ring-offset-transparent"
-                onClick={(e) => {
-                        e.preventDefault();
-                        const target = document.getElementById("contact");
-                        if (target) {
-                          target.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start",
-                          });
-                        }
-                      }}
+                className="cta-button px-6 py-3 text-sm font-semibold text-white rounded-full transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
+                onClick={(e) => handleClick(e, "contact")}
               >
                 <span className="relative z-10 flex items-center space-x-2">
                   <span>Get In Touch</span>
@@ -472,7 +397,7 @@ const Navbar = () => {
           <div className="md:hidden mobile-menu-enter">
             <div className="glass-mobile-menu">
               <div className="px-6 py-6 space-y-3">
-                {["home", "about", "skills", "contact"].map((section) => (
+                {["home", "about", "skills", "project", "contact"].map((section) => (
                   <a
                     key={section}
                     href={`#${section}`}
@@ -481,16 +406,7 @@ const Navbar = () => {
                         ? "active"
                         : "text-white/90 hover:text-white"
                     }`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      const target = document.getElementById(section);
-                      if (target) {
-                        target.scrollIntoView({
-                          behavior: "smooth",
-                          block: "start",
-                        });
-                      }
-                    }}
+                    onClick={(e) => handleClick(e, section)}
                   >
                     {section}
                   </a>
@@ -498,7 +414,7 @@ const Navbar = () => {
                 <div className="pt-4">
                   <button
                     className="cta-button w-full px-6 py-4 text-base font-semibold text-white rounded-2xl transition-all duration-200"
-                    onClick={(e) => handleNavClick(e, "contact")}
+                    onClick={(e) => handleClick(e, "contact")}
                   >
                     <span className="relative z-10 flex items-center justify-center space-x-2">
                       <span>Get In Touch</span>
