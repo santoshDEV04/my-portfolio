@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { LoadingScreen } from "./components/LoadingScreen";
-import CustomCursor from "./components/CustomCursor";
-import Navbar from "./components/Navbar";
-import MobileMenu from "./components/MobileMenu";
-import { Home } from "./components/sections/Home";
-import { About } from "./components/sections/About";
-import Skills from "./components/sections/Skills";
-import Contact from "./components/sections/Contact";
-import FooterSection from "./components/sections/FooterSection";
-import Background from "./components/Background.jsx";
-import ScrollProgressBar from "./components/ScrollProgressBar.jsx";
-import SocialSidebar from "./components/SocialSidebar";
-import SmoothScrollWrapper from "./components/SmoothScrollWrapper.jsx";
-import CircularText from "./components/CircularText.jsx";
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { LoadingScreen } from './components/LoadingScreen';
+import CustomCursor from './components/CustomCursor';
+import Navbar from './components/Navbar';
+import MobileMenu from './components/MobileMenu';
+import { Home } from './components/sections/Home';
+import { About } from './components/sections/About';
+import Skills from './components/sections/Skills';
+import Contact from './components/sections/Contact';
+import FooterSection from './components/sections/FooterSection';
+import Background from './components/Background.jsx';
+import ScrollProgressBar from './components/ScrollProgressBar.jsx';
+import SocialSidebar from './components/SocialSidebar';
+import SmoothScrollWrapper from './components/SmoothScrollWrapper.jsx';
+import CircularText from './components/CircularText.jsx';
 
 const App = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -25,12 +25,13 @@ const App = () => {
     const checkMobile = () => {
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-      const isMobileUserAgent = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|tablet|kindle|silk|playbook|bb10|windows phone/i.test(
-        userAgent.toLowerCase()
-      );
+      const isMobileUserAgent =
+        /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|tablet|kindle|silk|playbook|bb10|windows phone/i.test(
+          userAgent.toLowerCase()
+        );
 
       const hasTouchScreen =
-        "ontouchstart" in window || navigator.maxTouchPoints > 0;
+        'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
       const isSmallScreen = window.innerWidth <= 768;
 
@@ -41,8 +42,8 @@ const App = () => {
     };
 
     checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   return (
@@ -52,7 +53,7 @@ const App = () => {
         <div className="hidden md:block">
           <Background
             particleCount={400}
-            particleColors={["#00ffff", "#ff00ff", "#ffffff"]}
+            particleColors={['#00ffff', '#ff00ff', '#ffffff']}
             particleBaseSize={120}
             moveParticlesOnHover={true}
             particleHoverFactor={8}
@@ -93,33 +94,33 @@ const App = () => {
             </div>
 
             {/* 🌀 CircularText - Mobile top-center */}
-            <div className="md:hidden absolute top-[8vh] left-1/2 -translate-x-1/2 z-[99999]">
+            <div className="md:hidden absolute top-[10vh] left-1/2 -translate-x-1/2 z-[99999]">
               <CircularText />
             </div>
 
             {/* 📜 Scrollable Content */}
-              {/* 📜 Scrollable Content */}
-<main>
-  {!isMobile ? (
-    // Desktop → Use GSAP smooth scrolling
-    <SmoothScrollWrapper>
-      <Home />
-      <About />
-      <Skills />
-      <Contact />
-      <FooterSection />
-    </SmoothScrollWrapper>
-  ) : (
-    // Mobile → Normal scroll (no GSAP)
-    <>
-      <Home />
-      <About />
-      <Skills />
-      <Contact />
-      <FooterSection />
-    </>
-  )}
-</main>
+            {/* 📜 Scrollable Content */}
+            <main>
+              {!isMobile ? (
+                // Desktop → Use GSAP smooth scrolling
+                <SmoothScrollWrapper>
+                  <Home />
+                  <About />
+                  <Skills />
+                  <Contact />
+                  <FooterSection />
+                </SmoothScrollWrapper>
+              ) : (
+                // Mobile → Normal scroll (no GSAP)
+                <>
+                  <Home />
+                  <About />
+                  <Skills />
+                  <Contact />
+                  <FooterSection />
+                </>
+              )}
+            </main>
           </motion.div>
         )}
       </AnimatePresence>
