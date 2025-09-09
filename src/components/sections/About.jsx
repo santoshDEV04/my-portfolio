@@ -76,27 +76,22 @@ const FloatingBlob = ({
   );
 };
 
-// Simplified text animation - mobile first approach
-const AnimatedText = ({ children, className = "", delay = 0 }) => {
+// Optimized text animation - mobile first approach
+const AnimatedText = ({ children, className = "", delay = 0, as: Component = "div" }) => {
   const textRef = useRef(null);
   const isMobile = useIsMobile();
-  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const element = textRef.current;
     if (!element) return;
 
-    // Always show on mobile immediately
-    if (isMobile) {
-      setIsVisible(true);
-      return;
-    }
+    // Skip animations on mobile
+    if (isMobile) return;
 
     // Desktop animation
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true);
           gsap.fromTo(
             element,
             { opacity: 0, y: 20 },
@@ -118,71 +113,46 @@ const AnimatedText = ({ children, className = "", delay = 0 }) => {
   }, [isMobile, delay]);
 
   return (
-    <div
-      ref={textRef}
-      className={`${className} ${
-        isMobile ? "opacity-100" : isVisible ? "" : "opacity-0"
-      }`}
-    >
+    <Component ref={textRef} className={className}>
       {children}
-    </div>
+    </Component>
   );
 };
 
-// Simplified glitch effect
+// Simplified glitch effect - desktop only
 const GlitchText = ({ children, className = "" }) => {
-  const [isGlitching, setIsGlitching] = useState(false);
   const isMobile = useIsMobile();
 
-  useEffect(() => {
-    if (isMobile) return;
-
-    const interval = setInterval(() => {
-      setIsGlitching(true);
-      setTimeout(() => setIsGlitching(false), 200);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [isMobile]);
+  if (isMobile) {
+    return (
+      <span className={className}>
+        {children}
+      </span>
+    );
+  }
 
   return (
     <span
-      className={`${className} ${
-        !isMobile && isGlitching ? "animate-pulse" : ""
-      }`}
-      style={{
-        textShadow:
-          !isMobile && isGlitching
-            ? "2px 2px 0 #ff00ff, -2px -2px 0 #00ffff"
-            : "none",
-      }}
+      className={`${className} glitch-text`}
     >
       {children}
     </span>
   );
 };
 
-// Simplified card component - mobile first
+// Optimized card component
 const MagneticCard = ({ children, className = "" }) => {
   const cardRef = useRef(null);
   const isMobile = useIsMobile();
-  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const element = cardRef.current;
-    if (!element) return;
-
-    // Always show on mobile immediately
-    if (isMobile) {
-      setIsVisible(true);
-      return;
-    }
+    if (!element || isMobile) return;
 
     // Desktop animation
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true);
           gsap.fromTo(
             element,
             { opacity: 0, y: 30 },
@@ -231,9 +201,7 @@ const MagneticCard = ({ children, className = "" }) => {
   return (
     <div
       ref={cardRef}
-      className={`${className} ${
-        isMobile ? "opacity-100" : isVisible ? "" : "opacity-0"
-      }`}
+      className={className}
     >
       {children}
     </div>
@@ -278,9 +246,10 @@ const LiquidMorphBlob = ({ className = "" }) => {
 export const About = () => {
   const aboutRef = useRef();
   const titleRef = useRef();
+  const handRef = useRef();
   const isMobile = useIsMobile();
 
-  // Simple scroll animation for desktop only
+  // Scroll animation for desktop only
   useEffect(() => {
     if (isMobile) return;
 
@@ -310,11 +279,8 @@ export const About = () => {
     const titleElement = titleRef.current;
     if (!titleElement) return;
 
-    // Always visible on mobile
-    if (isMobile) {
-      gsap.set(titleElement, { opacity: 1, scale: 1 });
-      return;
-    }
+    // Skip animation on mobile
+    if (isMobile) return;
 
     // Desktop animation
     gsap.set(titleElement, { opacity: 0, scale: 0.8 });
@@ -335,6 +301,39 @@ export const About = () => {
 
     observer.observe(titleElement);
     return () => observer.disconnect();
+  }, [isMobile]);
+
+  // Hand wave animation
+  useEffect(() => {
+    if (isMobile) return;
+
+    const hand = handRef.current;
+    if (!hand) return;
+
+    gsap.set(hand, {
+      transformOrigin: "bottom center",
+      rotate: 0,
+    });
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          const tl = gsap.timeline({ repeat: 1, repeatDelay: 1 });
+
+          tl.to(hand, { rotate: 25, duration: 0.2, ease: "power1.inOut" })
+            .to(hand, { rotate: -15, duration: 0.2, ease: "power1.inOut" })
+            .to(hand, { rotate: 20, duration: 0.2, ease: "power1.inOut" })
+            .to(hand, { rotate: 0, duration: 0.2, ease: "power1.inOut" });
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(hand);
+    return () => {
+      observer.disconnect();
+      gsap.killTweensOf(hand);
+    };
   }, [isMobile]);
 
   const educationJourney = [
@@ -371,29 +370,6 @@ export const About = () => {
     },
   ];
 
-  useEffect(() => {
-    if (isMobile) return;
-
-    const hand = document.querySelector(".hand");
-    if (!hand) return;
-
-    gsap.set(hand, {
-      transformOrigin: "bottom center",
-      rotate: 0,
-    });
-
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 3 });
-
-    tl.to(hand, { rotate: 25, duration: 0.2, ease: "power1.inOut" })
-      .to(hand, { rotate: -15, duration: 0.2, ease: "power1.inOut" })
-      .to(hand, { rotate: 20, duration: 0.2, ease: "power1.inOut" })
-      .to(hand, { rotate: 0, duration: 0.2, ease: "power1.inOut" });
-
-    return () => {
-      gsap.killTweensOf(hand);
-    };
-  }, [isMobile]);
-
   return (
     <section
       id="about"
@@ -402,25 +378,27 @@ export const About = () => {
                  gap-6 sm:gap-8 px-4 py-12 sm:py-16 sm:px-6 lg:px-8 overflow-hidden z-[1]"
     >
       {/* Background Elements - Desktop only */}
-      <div className="absolute inset-0">
-        <LiquidMorphBlob className="w-32 h-32 sm:w-48 sm:h-48 bottom-20 right-20" />
-        <LiquidMorphBlob className="w-40 h-40 sm:w-64 sm:h-64 top-1/3 left-1/6" />
+      {!isMobile && (
+        <div className="absolute inset-0">
+          <LiquidMorphBlob className="w-32 h-32 sm:w-48 sm:h-48 bottom-20 right-20" />
+          <LiquidMorphBlob className="w-40 h-40 sm:w-64 sm:h-64 top-1/3 left-1/6" />
 
-        <FloatingBlob
-          radius={40}
-          duration={25}
-          size="w-16 h-16 sm:w-24 sm:h-24"
-          color="from-blue-400 to-cyan-400"
-          className="bottom-32 right-20"
-        />
-        <FloatingBlob
-          radius={30}
-          duration={30}
-          size="w-12 h-12 sm:w-20 sm:h-20"
-          color="from-purple-400 to-pink-400"
-          className="top-1/4 left-1/5"
-        />
-      </div>
+          <FloatingBlob
+            radius={40}
+            duration={25}
+            size="w-16 h-16 sm:w-24 sm:h-24"
+            color="from-blue-400 to-cyan-400"
+            className="bottom-32 right-20"
+          />
+          <FloatingBlob
+            radius={30}
+            duration={30}
+            size="w-12 h-12 sm:w-20 sm:h-20"
+            color="from-purple-400 to-pink-400"
+            className="top-1/4 left-1/5"
+          />
+        </div>
+      )}
 
       <div className="text-center z-10">
         <div ref={titleRef} className="inline-block">
@@ -449,21 +427,22 @@ export const About = () => {
         {/* Introduction Card */}
         <MagneticCard
           className="group backdrop-blur-md bg-gradient-to-b from-purple-600/80 to-transparent
-             rounded-2xl p-6 hover:shadow-white/5 transition-all duration-300
-             hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]"
+             rounded-2xl p-6 transition-all duration-300"
         >
           <div className="space-y-4">
             <AnimatedText
+              as="h3"
               className="text-xl sm:text-2xl font-semibold text-white mb-4 flex items-center gap-3 relative"
               delay={0.1}
             >
               Hey there!
-              <span className="hand text-3xl sm:text-4xl inline-block origin-bottom">
+              <span ref={handRef} className="hand text-3xl sm:text-4xl inline-block origin-bottom">
                 👋
               </span>
             </AnimatedText>
 
             <AnimatedText
+              as="p"
               className="text-gray-200 text-base leading-relaxed"
               delay={0.2}
             >
@@ -479,6 +458,7 @@ export const About = () => {
             </AnimatedText>
 
             <AnimatedText
+              as="p"
               className="text-gray-200 text-base leading-relaxed"
               delay={0.3}
             >
@@ -496,6 +476,7 @@ export const About = () => {
                      rounded-2xl p-6 transition-all duration-300"
         >
           <AnimatedText
+            as="h3"
             className="text-xl font-semibold text-white mb-6 text-center"
             delay={0.1}
           >
@@ -544,6 +525,7 @@ export const About = () => {
              rounded-2xl p-6 transition-all duration-300"
       >
         <AnimatedText
+          as="h3"
           className="text-xl font-semibold text-white mb-6 text-center"
           delay={0.1}
         >

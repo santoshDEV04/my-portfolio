@@ -4,6 +4,7 @@ import CircularText from "../CircularText";
 import { FileDown } from "lucide-react";
 import { createPortal } from "react-dom";
 // import  RevealOnScroll from "./RevealOnScroll";
+import SmoothScrollWrapper from "../SmoothScrollWrapper";
 
 export const Home = () => {
   const sectionRef = useRef(null);
@@ -238,9 +239,6 @@ export const Home = () => {
         transition={{ duration: 1, ease: "easeOut" }}
         className="min-h-screen justify-center flex flex-col md:flex-row items-center md:justify-around relative text-white px-4 z-10 overflow-y-auto bg-transparent"
       >
-        <div className="md:fixed md:bottom-4 md:left-4 z-[99999]">
-          <CircularText />
-        </div>
 
         {/* <RevealOnScroll> */}
         <div className="flex flex-col justify-around h-1/2 text-center z-30 max-w-4xl floating-element relative">

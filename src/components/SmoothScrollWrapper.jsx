@@ -12,9 +12,9 @@ const SmoothScrollWrapper = ({ children }) => {
       smootherRef.current = ScrollSmoother.create({
         wrapper: "#smooth-wrapper",
         content: "#smooth-content",
-        smooth: 1.2, 
+        smooth: 1.2,
         effects: true,
-        smoothTouch: 0.1, 
+        smoothTouch: 0.1,
       });
     }
 
@@ -27,7 +27,7 @@ const SmoothScrollWrapper = ({ children }) => {
   }, []);
 
   return (
-    <div id="smooth-wrapper" className="relative overflow-hidden">
+    <div id="smooth-wrapper">
       <div id="smooth-content">{children}</div>
     </div>
   );
