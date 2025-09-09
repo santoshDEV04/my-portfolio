@@ -98,15 +98,28 @@ const App = () => {
             </div>
 
             {/* 📜 Scrollable Content */}
-              <main>
-            <SmoothScrollWrapper>
-                <Home />
-                <About />
-                <Skills />
-                <Contact />
-                <FooterSection />
-            </SmoothScrollWrapper>
-              </main>
+              {/* 📜 Scrollable Content */}
+<main>
+  {!isMobile ? (
+    // Desktop → Use GSAP smooth scrolling
+    <SmoothScrollWrapper>
+      <Home />
+      <About />
+      <Skills />
+      <Contact />
+      <FooterSection />
+    </SmoothScrollWrapper>
+  ) : (
+    // Mobile → Normal scroll (no GSAP)
+    <>
+      <Home />
+      <About />
+      <Skills />
+      <Contact />
+      <FooterSection />
+    </>
+  )}
+</main>
           </motion.div>
         )}
       </AnimatePresence>
