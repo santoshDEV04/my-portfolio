@@ -93,7 +93,7 @@ const App = () => {
             </div>
 
             {/* 🌀 CircularText - Mobile top-center */}
-            <div className="md:hidden absolute top-[6vh] left-1/2 -translate-x-1/2 z-[99999]">
+            <div className="md:hidden absolute top-[8vh] left-1/2 -translate-x-1/2 z-[99999]">
               <CircularText />
             </div>
 
