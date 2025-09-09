@@ -100,7 +100,7 @@ export const ScrollProgressBar = () => {
 
       {/* Circular Ring Progress */}
       <div
-        className={`fixed top-[13rem] left-2 w-12 h-12 z-50 transition-all duration-500 ${
+        className={`fixed top-[11rem] left-2 w-12 h-12 z-50 transition-all duration-500 ${
           isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90"
         }`}
       >
