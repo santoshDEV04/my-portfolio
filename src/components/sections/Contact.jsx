@@ -13,6 +13,7 @@ import {
   Globe,
   Smartphone,
 } from "lucide-react";
+import ModelViewer from "../ModelViewer.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -243,7 +244,7 @@ const ContactSection = () => {
             className="w-full flex justify-center items-center opacity-0"
           >
             <div className="relative">
-              <InteractiveGlobe />
+              <InteractiveGlobe/>
               <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-4 left-4 w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
                 <div className="absolute bottom-8 right-8 w-1 h-1 bg-pink-400 rounded-full animate-pulse" />

@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
+    "@react-three/drei": "^10.7.5",
+    "@react-three/fiber": "^9.3.0",
     "@tailwindcss/vite": "^4.1.10",
     "emailjs-com": "^3.2.0",
     "framer-motion": "^12.18.1",
