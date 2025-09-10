@@ -13,7 +13,6 @@ import {
   Globe,
   Smartphone,
 } from "lucide-react";
-import ModelViewer from "../ModelViewer.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
