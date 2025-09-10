@@ -102,7 +102,7 @@ const App = () => {
             {/* 📜 Scrollable Content */}
             {/* 📜 Scrollable Content */}
             <main>
-              {!isMobile ? (
+              {/* {!isMobile ? (
                 // Desktop → Use GSAP smooth scrolling
                 <SmoothScrollWrapper>
                   <Home />
@@ -122,7 +122,17 @@ const App = () => {
                   <Contact />
                   <FooterSection />
                 </>
-              )}
+              )} */}
+                <main>
+                <Home />
+                  <About />
+                  <Skills />
+                  <Project />
+                  <Contact />
+                  <FooterSection />
+
+                  </main>
+
             </main>
           </motion.div>
         )}
