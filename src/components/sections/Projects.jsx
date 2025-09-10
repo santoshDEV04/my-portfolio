@@ -6,7 +6,7 @@ const projects = [
   {
     title: "Streamify",
     description: "A real-time video + chat application with WebSockets.",
-    image: "src/assets/images/streamify.png",
+    image: "/images/streamify.png",
     tech: ["React", "Node.js", "WebSockets", "MongoDB"],
     demo: "https://streamify-ezut.onrender.com",
     github: "https://github.com/santoshDEV04/streamify",
@@ -14,7 +14,7 @@ const projects = [
   {
     title: "Portfolio Website",
     description: "My personal portfolio built with GSAP & Framer Motion.",
-    image: "src/assets/images/portfolio.png",
+    image: "/images/portfolio.png",
     tech: ["React", "GSAP", "Framer Motion"],
     demo: "https://santoshdash.vercel.app",
     github: "https://github.com/santoshDEV04/my-portfolio",
