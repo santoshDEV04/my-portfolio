@@ -358,7 +358,7 @@ export const Home = () => {
               transition={{ type: "spring", stiffness: 400, damping: 20 }}
             >
               <motion.a
-                href="#contact"
+                href="#projects"
                 className="block relative overflow-hidden rounded-full px-6 py-4 font-semibold text-sm text-white backdrop-blur-md group cursor-pointer bg-gradient-to-r from-fuchsia-600 via-pink-600 to-orange-500 shadow-lg shadow-indigo-900/40 glow-effect"
               >
                 {/* SHINE EFFECT - FIXED */}
@@ -366,7 +366,7 @@ export const Home = () => {
 
                 {/* Button content */}
                 <span className="relative z-10 flex items-center gap-2">
-                  Contact Me
+                  Projects
                   <svg
                     className="w-5 h-5 text-white transition-transform duration-300 transform group-hover:translate-x-1"
                     fill="none"
