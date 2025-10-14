@@ -14,7 +14,7 @@ const socials = [
     color: '#0A66C2',
   },
   {
-    href: 'https://leetcode.com/u/4S56N4XzgO/',
+    href: 'https://leetcode.com/u/Santosh_ku04/',
     src: leetcodeIcon,
     alt: 'LeetCode',
     color: '#FFA116',
