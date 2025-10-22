@@ -321,7 +321,7 @@ const Navbar = () => {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-7">
               <div className="glass-nav-block rounded-full px-2 py-6 flex items-center space-x-2 h-10">
-                {["home", "about", "skills", "projects", "contact"].map((section, index) => (
+                {["home", "about","projects", "skills", "contact"].map((section, index) => (
                   <a
                     key={section}
                     href={`#${section}`}

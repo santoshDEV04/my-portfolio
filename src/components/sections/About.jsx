@@ -338,20 +338,20 @@ export const About = () => {
 
   const educationJourney = [
     {
-      level: "Higher Secondary",
-      institution: "Jawahar Navodaya Vidyalaya",
-      year: "2015 - 2022",
-      stream: "Science Stream",
-      icon: "🏫",
-      color: "from-orange-400 to-red-400",
-    },
-    {
       level: "Bachelor's Degree",
       institution: "Nalanda Institute of Technology",
       year: "2023 - Present",
       stream: "Computer Science & Engineering",
       icon: "🎓",
       color: "from-blue-400 to-cyan-400",
+    },
+    {
+      level: "Higher Secondary",
+      institution: "Jawahar Navodaya Vidyalaya",
+      year: "2015 - 2022",
+      stream: "Science Stream",
+      icon: "🏫",
+      color: "from-orange-400 to-red-400",
     },
   ];
 

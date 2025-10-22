@@ -99,8 +99,6 @@ const App = () => {
               <CircularText />
             </div>
 
-            {/* 📜 Scrollable Content */}
-            {/* 📜 Scrollable Content */}
             <main>
               {/* {!isMobile ? (
                 // Desktop → Use GSAP smooth scrolling
@@ -123,16 +121,14 @@ const App = () => {
                   <FooterSection />
                 </>
               )} */}
-                <main>
+              <main>
                 <Home />
-                  <About />
-                  <Skills />
-                  <Project />
-                  <Contact />
-                  <FooterSection />
-
-                  </main>
-
+                <About />
+                <Project />
+                <Skills />
+                <Contact />
+                <FooterSection />
+              </main>
             </main>
           </motion.div>
         )}
