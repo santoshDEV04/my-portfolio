@@ -53,20 +53,9 @@ const Particle = ({ index }) => {
 const StartButton = ({ onClick }) => {
   return (
     <div className="relative group">
-      {/* Outer rotating ring - BRIGHT CYAN */}
-      <div
-        className="absolute -inset-6 rounded-full border-2 border-cyan-400 animate-spin"
-        style={{ animationDuration: '12s' }}
-      />
-
-      {/* Middle rotating ring - BRIGHT PURPLE */}
-      <div
-        className="absolute -inset-4 rounded-full border-2 border-purple-500 animate-spin"
-        style={{ animationDuration: '8s', animationDirection: 'reverse' }}
-      />
 
       {/* Inner pulse ring - BRIGHT PINK */}
-      <motion.div
+      {/* <motion.div
         className="absolute -inset-2 rounded-full border-2 border-pink-500"
         animate={{
           scale: [1, 1.1, 1],
@@ -77,7 +66,7 @@ const StartButton = ({ onClick }) => {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-      />
+      /> */}
 
       <motion.button
         onClick={onClick}
