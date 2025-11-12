@@ -12,7 +12,6 @@ import FooterSection from './components/sections/FooterSection';
 import Background from './components/Background.jsx';
 import ScrollProgressBar from './components/ScrollProgressBar.jsx';
 import SocialSidebar from './components/SocialSidebar';
-import SmoothScrollWrapper from './components/SmoothScrollWrapper.jsx';
 import CircularText from './components/CircularText.jsx';
 import Project from './components/sections/Projects.jsx';
 import LightRays from './components/LightRays.jsx';

@@ -382,7 +382,7 @@ export const About = () => {
 
       <div className="text-center z-10">
         <div ref={titleRef} className="inline-block">
-          <h2 className="text-white text-6xl gap-3 leading-tight font-extrabold">
+          <h2 className="text-white text-5xl md:text-6xl gap-3 leading-tight font-extrabold">
             ABOUT ME
           </h2>
         </div>

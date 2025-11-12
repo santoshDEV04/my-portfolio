@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import CircularText from "../CircularText";
 import { FileDown } from "lucide-react";
 import { createPortal } from "react-dom";
 // import  RevealOnScroll from "./RevealOnScroll";
-import SmoothScrollWrapper from "../SmoothScrollWrapper";
 
 export const Home = () => {
   const sectionRef = useRef(null);
