@@ -25,28 +25,16 @@ const App = () => {
   // Detect if device is mobile
   useEffect(() => {
     const checkMobile = () => {
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-
-      const isMobileUserAgent =
-        /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|tablet|kindle|silk|playbook|bb10|windows phone/i.test(
-          userAgent.toLowerCase()
-        );
-
-      const hasTouchScreen =
-        'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-      const isSmallScreen = window.innerWidth <= 768;
-
-      const isMobileDevice =
-        isMobileUserAgent || (hasTouchScreen && isSmallScreen);
-
-      setIsMobile(isMobileDevice);
+      const isSmallScreen = window.matchMedia('(max-width: 768px)').matches;
+      const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      setIsMobile(isSmallScreen || hasTouch);
     };
 
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
 
   return (
     <>
@@ -63,11 +51,10 @@ const App = () => {
           />
         </div>
       )} */}
-      {!isMobile && (
-        <div className='fixed min-h-screen text-white'>
-          <DynamicBackground />
-        </div>
-      )}
+      <div className="fixed min-h-screen text-white">
+        <DynamicBackground />
+      </div>
+
       {/* {!isMobile && (
         <div style={{ width: '100%', height: '600px', position: 'fixed' }}>
           <LightRays
@@ -93,7 +80,7 @@ const App = () => {
       )}
 
       {/* 📊 Scroll Progress - Only after loading */}
-      {isLoaded && <ScrollProgressBar />}
+      {!isLoaded && <ScrollProgressBar />}
 
       <AnimatePresence mode="wait">
         {!isLoaded ? (

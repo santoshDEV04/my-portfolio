@@ -205,7 +205,7 @@ const SkillsSection = () => {
 
     const hoverEffectsClasses = isMobile
       ? ""
-      : `transition-all duration-300 hover:shadow-2xl hover:border-white/20`;
+      : `transition-all duration-300 hover:border-white/20`;
 
     return (
       <div
@@ -234,7 +234,7 @@ const SkillsSection = () => {
         {/* Main Card - Fixed Height */}
         {/* Main Card - Dynamic Height instead of fixed h-32 */}
         <div
-          className={`relative min-h-[9rem] md:min-h-[10rem] overflow-visible rounded-xl backdrop-blur-xl shadow-xl ${hoverEffectsClasses}`}
+          className={`relative min-h-[9rem] md:min-h-[10rem] overflow-visible rounded-xl backdrop-blur-xl  ${hoverEffectsClasses}`}
         >
           {/* Animated Background - Disabled on mobile */}
           {!isMobile && (
@@ -318,7 +318,7 @@ const SkillsSection = () => {
               }`}
               style={{
                 background: `linear-gradient(135deg, ${skill.color}ee, ${skill.color}cc)`,
-                boxShadow: `0 4px 12px ${skill.color}44`,
+                
               }}
             >
               {skill.description}
