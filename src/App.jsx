@@ -15,7 +15,8 @@ import SocialSidebar from './components/SocialSidebar';
 import SmoothScrollWrapper from './components/SmoothScrollWrapper.jsx';
 import CircularText from './components/CircularText.jsx';
 import Project from './components/sections/Projects.jsx';
-
+import LightRays from './components/LightRays.jsx';
+import DynamicBackground from './components/DynamicBackground.jsx';
 const App = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -50,7 +51,7 @@ const App = () => {
   return (
     <>
       {/* 🌌 Background - Only on desktop */}
-      {!isMobile && (
+      {/* {!isMobile && (
         <div className="hidden md:block">
           <Background
             particleCount={400}
@@ -61,7 +62,28 @@ const App = () => {
             alphaParticles={true}
           />
         </div>
+      )} */}
+      {!isMobile && (
+        <div className='fixed min-h-screen text-white'>
+          <DynamicBackground />
+        </div>
       )}
+      {/* {!isMobile && (
+        <div style={{ width: '100%', height: '600px', position: 'fixed' }}>
+          <LightRays
+            raysOrigin="top-center"
+            raysColor="#00ffff"
+            raysSpeed={1.5}
+            lightSpread={0.8}
+            rayLength={1.2}
+            followMouse={true}
+            mouseInfluence={0.1}
+            noiseAmount={0.1}
+            distortion={0.05}
+            className="custom-rays"
+          />
+        </div>
+      )} */}
 
       {/* 🖱 Custom Cursor - Only on desktop */}
       {!isMobile && (
@@ -100,35 +122,12 @@ const App = () => {
             </div>
 
             <main>
-              {/* {!isMobile ? (
-                // Desktop → Use GSAP smooth scrolling
-                <SmoothScrollWrapper>
-                  <Home />
-                  <About />
-                  <Skills />
-                  <Project />
-                  <Contact />
-                  <FooterSection />
-                </SmoothScrollWrapper>
-              ) : (
-                // Mobile → Normal scroll (no GSAP)
-                <>
-                  <Home />
-                  <About />
-                  <Skills />
-                  <Project />
-                  <Contact />
-                  <FooterSection />
-                </>
-              )} */}
-              <main>
-                <Home />
-                <About />
-                <Project />
-                <Skills />
-                <Contact />
-                <FooterSection />
-              </main>
+              <Home />
+              <About />
+              <Project />
+              <Skills />
+              <Contact />
+              <FooterSection />
             </main>
           </motion.div>
         )}
