@@ -27,12 +27,12 @@ const Projects = () => {
       className="relative min-h-screen flex flex-col items-center justify-center gap-12 px-4 py-18 sm:px-6 lg:px-8 overflow-hidden z-[1] bg-transparent"
     >
       <div className="text-center z-10">
-        <h2 className="section-title text-4xl sm:text-5xl font-extrabold leading-tight bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent drop-shadow-lg">
-          Projects
+        <h2 className="section-title text-4xl sm:text-5xl font-extrabold leading-tight drop-shadow-lg">
+          PROJECTS
         </h2>
-        <p className="text-gray-300 mt-1 max-w-2xl mx-auto text-base sm:text-lg">
+        {/* <p className="text-gray-300 mt-1 max-w-2xl mx-auto text-base sm:text-lg">
           A selection of my favorite builds – crafted with passion & precision ✨
-        </p>
+        </p> */}
       </div>
 
       <div className="flex justify-center items-center flex-wrap gap-9 max-w-6xl w-full z-10">
@@ -48,7 +48,7 @@ const Projects = () => {
             transitionSpeed={2500}
           >
             <div className="rounded-2xl p-6 w-[340px] h-[440px] flex flex-col
-              bg-white/10 border border-white/20 backdrop-blur-md shadow-lg
+              bg-white/10 border-none backdrop-blur-md shadow-lg
               hover:shadow-xl hover:shadow-pink-500/30
               transition-all duration-500 ease-out group">
 

@@ -318,7 +318,7 @@ const SkillsSection = () => {
               }`}
               style={{
                 background: `linear-gradient(135deg, ${skill.color}ee, ${skill.color}cc)`,
-                
+
               }}
             >
               {skill.description}
@@ -360,14 +360,14 @@ const SkillsSection = () => {
     >
       {/* Background Pattern - Simplified for mobile */}
       <div
-        className={`absolute inset-0 ${isMobile ? "opacity-3" : "opacity-5"}`}
+        className={`absolute inset-0 ${isMobile ? 'opacity-3' : 'opacity-5'}`}
       >
         <div
           className="absolute inset-0"
           style={{
             backgroundImage: `radial-gradient(circle at 25% 25%, #ffffff 1px, transparent 1px),
                            radial-gradient(circle at 75% 75%, #ffffff 1px, transparent 1px)`,
-            backgroundSize: isMobile ? "30px 30px" : "50px 50px",
+            backgroundSize: isMobile ? '30px 30px' : '50px 50px',
           }}
         />
       </div>
@@ -377,23 +377,23 @@ const SkillsSection = () => {
         <div className="text-center space-y-4">
           <div className={sectionAnimationClasses}>
             <h2 className="text-4xl sm:text-5xl font-extrabold leading-tight">
-              <span className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-                Skills
+              <span className="text-white font-extrabold leading-tight">
+                SKILLS
               </span>
               <span className="text-white"> & </span>
-              <span className="bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent">
-                Tools
+              <span className="text-white font-extrabold leading-tight">
+                TOOLS
               </span>
             </h2>
           </div>
           <div
             className={`${
               isMobile
-                ? "opacity-100 transform-none"
+                ? 'opacity-100 transform-none'
                 : `transform transition-all duration-700 delay-200 ${
                     isVisible
-                      ? "translate-y-0 opacity-100"
-                      : "translate-y-6 opacity-0"
+                      ? 'translate-y-0 opacity-100'
+                      : 'translate-y-6 opacity-0'
                   }`
             }`}
           >
@@ -408,11 +408,11 @@ const SkillsSection = () => {
           <div
             className={`${
               isMobile
-                ? "opacity-100 transform-none"
+                ? 'opacity-100 transform-none'
                 : `transform transition-all duration-700 delay-300 ${
                     isVisible
-                      ? "translate-y-0 opacity-100"
-                      : "translate-y-6 opacity-0"
+                      ? 'translate-y-0 opacity-100'
+                      : 'translate-y-6 opacity-0'
                   }`
             }`}
           >
@@ -441,11 +441,11 @@ const SkillsSection = () => {
           <div
             className={`${
               isMobile
-                ? "opacity-100 transform-none"
+                ? 'opacity-100 transform-none'
                 : `transform transition-all duration-700 delay-500 ${
                     isVisible
-                      ? "translate-y-0 opacity-100"
-                      : "translate-y-6 opacity-0"
+                      ? 'translate-y-0 opacity-100'
+                      : 'translate-y-6 opacity-0'
                   }`
             }`}
           >

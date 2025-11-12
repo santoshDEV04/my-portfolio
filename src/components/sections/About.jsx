@@ -119,26 +119,6 @@ const AnimatedText = ({ children, className = "", delay = 0, as: Component = "di
   );
 };
 
-// Simplified glitch effect - desktop only
-const GlitchText = ({ children, className = "" }) => {
-  const isMobile = useIsMobile();
-
-  if (isMobile) {
-    return (
-      <span className={className}>
-        {children}
-      </span>
-    );
-  }
-
-  return (
-    <span
-      className={`${className} glitch-text`}
-    >
-      {children}
-    </span>
-  );
-};
 
 // Optimized card component
 const MagneticCard = ({ children, className = "" }) => {
@@ -402,16 +382,9 @@ export const About = () => {
 
       <div className="text-center z-10">
         <div ref={titleRef} className="inline-block">
-          <h2
-            className="text-4xl sm:text-5xl font-extrabold leading-tight bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent drop-shadow-lg"
-          >
-            <GlitchText>About Me</GlitchText>
+          <h2 className="text-white text-6xl gap-3 leading-tight font-extrabold">
+            ABOUT ME
           </h2>
-
-          <div
-            className="h-0.5 w-full bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400
-                         rounded-full mx-auto mt-2"
-          />
         </div>
       </div>
 
@@ -436,7 +409,10 @@ export const About = () => {
               delay={0.1}
             >
               Hey there!
-              <span ref={handRef} className="hand text-3xl sm:text-4xl inline-block origin-bottom">
+              <span
+                ref={handRef}
+                className="hand text-3xl sm:text-4xl inline-block origin-bottom"
+              >
                 👋
               </span>
             </AnimatedText>
@@ -446,7 +422,7 @@ export const About = () => {
               className="text-gray-200 text-base leading-relaxed"
               delay={0.2}
             >
-              I'm{" "}
+              I'm{' '}
               <span
                 className="text-transparent bg-gradient-to-r from-cyan-400 to-purple-400
                               bg-clip-text font-semibold"
@@ -493,7 +469,7 @@ export const About = () => {
                 <div
                   className={`flex items-start gap-4 p-4 rounded-xl bg-gradient-to-b from-cyan-700/30 to-transparent
                                transition-all duration-300 ${
-                                 !isMobile ? "hover:scale-105" : ""
+                                 !isMobile ? 'hover:scale-105' : ''
                                }`}
                 >
                   <div
@@ -540,7 +516,7 @@ export const About = () => {
               className={`p-4 rounded-xl bg-gradient-to-b  from-violet-700
                 to-transparent
                           transition-all duration-300 ${
-                            !isMobile ? "hover:scale-105" : ""
+                            !isMobile ? 'hover:scale-105' : ''
                           }`}
             >
               <div className="text-2xl mb-2">{item.icon}</div>

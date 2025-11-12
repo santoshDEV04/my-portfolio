@@ -215,7 +215,7 @@ const ProgressBar = ({ progress, stage }) => {
       {/* Progress percentage - BRIGHT WHITE */}
       <div className="flex justify-center mt-3">
         <motion.p
-          className="text-sm text-white font-mono font-bold text-lg"
+          className="text-sm text-white font-mono font-bold md:text-lg"
           animate={{ opacity: [0.7, 1, 0.7] }}
           transition={{ duration: 2, repeat: Infinity }}
         >

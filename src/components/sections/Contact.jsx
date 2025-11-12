@@ -164,10 +164,9 @@ const ContactSection = () => {
       {/* Heading */}
       <h2
         ref={headingRef}
-        className="absolute top-20 text-4xl sm:text-5xl font-extrabold leading-tight bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent drop-shadow-lg"
+        className="absolute top-20 text-4xl sm:text-5xl font-extrabold leading-tight text-white"
       >
-        Contact Me
-        <div className="w-full h-0.5 bg-gradient-to-r from-yellow-400 via-orange-500 to-pink-500 rounded-full mt-2" />
+        CONTACT ME
       </h2>
 
       <div
