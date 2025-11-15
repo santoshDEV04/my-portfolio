@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import EyeCursorSection from "./EyeCursor";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef, useState } from 'react';
+import EyeCursorSection from './EyeCursor';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,9 +15,9 @@ const useIsMobile = () => {
     };
 
     checkMobile();
-    window.addEventListener("resize", checkMobile);
+    window.addEventListener('resize', checkMobile);
 
-    return () => window.removeEventListener("resize", checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   return isMobile;
@@ -27,9 +27,9 @@ const useIsMobile = () => {
 const FloatingBlob = ({
   radius = 60,
   duration = 20,
-  size = "w-16 h-16",
-  color = "from-cyan-400 to-blue-500",
-  className = "",
+  size = 'w-16 h-16',
+  color = 'from-cyan-400 to-blue-500',
+  className = '',
 }) => {
   const blobRef = useRef(null);
   const isMobile = useIsMobile();
@@ -40,7 +40,7 @@ const FloatingBlob = ({
 
     gsap.set(blob, {
       force3D: true,
-      willChange: "transform",
+      willChange: 'transform',
     });
 
     const tl = gsap.timeline({ repeat: -1 });
@@ -50,13 +50,13 @@ const FloatingBlob = ({
       duration: duration / 4,
       yoyo: true,
       repeat: 1,
-      ease: "power2.inOut",
+      ease: 'power2.inOut',
     }).to(
       blob,
       {
         rotation: 360,
         duration: duration,
-        ease: "none",
+        ease: 'none',
       },
       0
     );
@@ -77,7 +77,12 @@ const FloatingBlob = ({
 };
 
 // Optimized text animation - mobile first approach
-const AnimatedText = ({ children, className = "", delay = 0, as: Component = "div" }) => {
+const AnimatedText = ({
+  children,
+  className = '',
+  delay = 0,
+  as: Component = 'div',
+}) => {
   const textRef = useRef(null);
   const isMobile = useIsMobile();
 
@@ -94,13 +99,13 @@ const AnimatedText = ({ children, className = "", delay = 0, as: Component = "di
         if (entry.isIntersecting) {
           gsap.fromTo(
             element,
-            { opacity: 0, y: 20 },
+            { opacity: 0, y: 40 },
             {
               opacity: 1,
               y: 0,
               duration: 0.6,
               delay: delay,
-              ease: "power1.out",
+              ease: 'power1.in',
             }
           );
         }
@@ -119,9 +124,8 @@ const AnimatedText = ({ children, className = "", delay = 0, as: Component = "di
   );
 };
 
-
 // Optimized card component
-const MagneticCard = ({ children, className = "" }) => {
+const MagneticCard = ({ children, className = '' }) => {
   const cardRef = useRef(null);
   const isMobile = useIsMobile();
 
@@ -140,7 +144,7 @@ const MagneticCard = ({ children, className = "" }) => {
               opacity: 1,
               y: 0,
               duration: 0.3,
-              ease: "power1.out",
+              ease: 'power1.out',
             }
           );
         }
@@ -155,7 +159,7 @@ const MagneticCard = ({ children, className = "" }) => {
       gsap.to(element, {
         scale: 1.02,
         duration: 0.3,
-        ease: "power2.out",
+        ease: 'power2.out',
       });
     };
 
@@ -163,33 +167,30 @@ const MagneticCard = ({ children, className = "" }) => {
       gsap.to(element, {
         scale: 1,
         duration: 0.3,
-        ease: "power2.out",
+        ease: 'power2.out',
       });
     };
 
-    element.addEventListener("mouseenter", handleMouseEnter);
-    element.addEventListener("mouseleave", handleMouseLeave);
+    element.addEventListener('mouseenter', handleMouseEnter);
+    element.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
       observer.disconnect();
-      element.removeEventListener("mouseenter", handleMouseEnter);
-      element.removeEventListener("mouseleave", handleMouseLeave);
+      element.removeEventListener('mouseenter', handleMouseEnter);
+      element.removeEventListener('mouseleave', handleMouseLeave);
       gsap.killTweensOf(element);
     };
   }, [isMobile]);
 
   return (
-    <div
-      ref={cardRef}
-      className={className}
-    >
+    <div ref={cardRef} className={className}>
       {children}
     </div>
   );
 };
 
 // Simplified morphing blob - desktop only
-const LiquidMorphBlob = ({ className = "" }) => {
+const LiquidMorphBlob = ({ className = '' }) => {
   const blobRef = useRef();
   const isMobile = useIsMobile();
 
@@ -200,11 +201,11 @@ const LiquidMorphBlob = ({ className = "" }) => {
     gsap.set(blob, { force3D: true });
 
     gsap.to(blob, {
-      borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%",
+      borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%',
       duration: 8,
       repeat: -1,
       yoyo: true,
-      ease: "power2.inOut",
+      ease: 'power2.inOut',
     });
 
     return () => {
@@ -242,8 +243,8 @@ export const About = () => {
           duration: 1,
           scrollTrigger: {
             trigger: aboutRef.current,
-            start: "top 80%",
-            end: "top 20%",
+            start: 'top 80%',
+            end: 'top 20%',
             scrub: false,
             once: true,
           },
@@ -272,7 +273,7 @@ export const About = () => {
             opacity: 1,
             scale: 1,
             duration: 0.8,
-            ease: "power2.out",
+            ease: 'power2.out',
           });
         }
       },
@@ -291,7 +292,7 @@ export const About = () => {
     if (!hand) return;
 
     gsap.set(hand, {
-      transformOrigin: "bottom center",
+      transformOrigin: 'bottom center',
       rotate: 0,
     });
 
@@ -300,10 +301,10 @@ export const About = () => {
         if (entry.isIntersecting) {
           const tl = gsap.timeline({ repeat: 1, repeatDelay: 1 });
 
-          tl.to(hand, { rotate: 25, duration: 0.2, ease: "power1.inOut" })
-            .to(hand, { rotate: -15, duration: 0.2, ease: "power1.inOut" })
-            .to(hand, { rotate: 20, duration: 0.2, ease: "power1.inOut" })
-            .to(hand, { rotate: 0, duration: 0.2, ease: "power1.inOut" });
+          tl.to(hand, { rotate: 25, duration: 0.2, ease: 'power1.inOut' })
+            .to(hand, { rotate: -15, duration: 0.2, ease: 'power1.inOut' })
+            .to(hand, { rotate: 20, duration: 0.2, ease: 'power1.inOut' })
+            .to(hand, { rotate: 0, duration: 0.2, ease: 'power1.inOut' });
         }
       },
       { threshold: 0.5 }
@@ -319,34 +320,34 @@ export const About = () => {
   const educationJourney = [
     {
       level: "Bachelor's Degree",
-      institution: "Nalanda Institute of Technology",
-      year: "2023 - Present",
-      stream: "Computer Science & Engineering",
-      icon: "🎓",
-      color: "from-blue-400 to-cyan-400",
+      institution: 'Nalanda Institute of Technology',
+      year: '2023 - Present',
+      stream: 'Computer Science & Engineering',
+      icon: '🎓',
+      color: 'from-blue-400 to-cyan-400',
     },
     {
-      level: "Higher Secondary",
-      institution: "Jawahar Navodaya Vidyalaya",
-      year: "2015 - 2022",
-      stream: "Science Stream",
-      icon: "🏫",
-      color: "from-orange-400 to-red-400",
+      level: 'Higher Secondary',
+      institution: 'Jawahar Navodaya Vidyalaya',
+      year: '2015 - 2022',
+      stream: 'Science Stream',
+      icon: '🏫',
+      color: 'from-orange-400 to-red-400',
     },
   ];
 
   const motivations = [
     {
-      text: "Creating intuitive solutions for real problems",
-      icon: "🎯",
+      text: 'Creating intuitive solutions for real problems',
+      icon: '🎯',
     },
     {
-      text: "Writing clean, maintainable code",
-      icon: "⚡",
+      text: 'Writing clean, maintainable code',
+      icon: '⚡',
     },
     {
-      text: "Embracing new technologies and challenges",
-      icon: "🚀",
+      text: 'Embracing new technologies and challenges',
+      icon: '🚀',
     },
   ];
 
@@ -399,7 +400,7 @@ export const About = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 max-w-6xl w-full gap-6 z-10">
         {/* Introduction Card */}
         <MagneticCard
-          className="group backdrop-blur-md bg-gradient-to-b from-purple-600/80 to-transparent
+          className="group bg-transparent
              rounded-2xl p-6 transition-all duration-300"
         >
           <div className="space-y-4">
@@ -448,7 +449,7 @@ export const About = () => {
 
         {/* Education Card */}
         <MagneticCard
-          className="backdrop-blur-sm bg-gradient-to-b from-indigo-700/50 to-transparent
+          className="bg-transparent
                      rounded-2xl p-6 transition-all duration-300"
         >
           <AnimatedText
@@ -467,10 +468,9 @@ export const About = () => {
                 className="timeline-item"
               >
                 <div
-                  className={`flex items-start gap-4 p-4 rounded-xl bg-gradient-to-b from-cyan-700/30 to-transparent
-                               transition-all duration-300 ${
-                                 !isMobile ? 'hover:scale-105' : ''
-                               }`}
+                  className={`flex items-start gap-4 p-4 rounded-xl bg-transparent transition-all duration-300 ${
+                    !isMobile ? 'hover:scale-105' : ''
+                  }`}
                 >
                   <div
                     className={`w-12 h-12 rounded-xl bg-gradient-to-br ${edu.color}
@@ -497,7 +497,7 @@ export const About = () => {
 
       {/* Motivations Card */}
       <MagneticCard
-        className="max-w-5xl w-full backdrop-blur-md bg-gradient-to-b from-blue-800/80 to-transparent
+        className="max-w-5xl w-full bg-transparent
              rounded-2xl p-6 transition-all duration-300"
       >
         <AnimatedText
@@ -513,8 +513,7 @@ export const About = () => {
             <AnimatedText
               key={index}
               delay={0.1 + index * 0.1}
-              className={`p-4 rounded-xl bg-gradient-to-b  from-violet-700
-                to-transparent
+              className={`p-4 rounded-xl bg-transparent
                           transition-all duration-300 ${
                             !isMobile ? 'hover:scale-105' : ''
                           }`}
