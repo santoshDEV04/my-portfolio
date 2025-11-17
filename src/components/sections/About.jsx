@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import EyeCursorSection from './EyeCursor';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SplitText from '../SplitText.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -122,6 +123,10 @@ const AnimatedText = ({
       {children}
     </Component>
   );
+};
+
+const handleAnimationComplete = () => {
+  console.log('All letters have animated!');
 };
 
 // Optimized card component
@@ -256,33 +261,33 @@ export const About = () => {
   }, [isMobile]);
 
   // Title animation
-  useEffect(() => {
-    const titleElement = titleRef.current;
-    if (!titleElement) return;
+  // useEffect(() => {
+  //   const titleElement = titleRef.current;
+  //   if (!titleElement) return;
 
-    // Skip animation on mobile
-    if (isMobile) return;
+  //   // Skip animation on mobile
+  //   if (isMobile) return;
 
-    // Desktop animation
-    gsap.set(titleElement, { opacity: 0, scale: 0.8 });
+  //   // Desktop animation
+  //   gsap.set(titleElement, { opacity: 0, scale: 0.8 });
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          gsap.to(titleElement, {
-            opacity: 1,
-            scale: 1,
-            duration: 0.8,
-            ease: 'power2.out',
-          });
-        }
-      },
-      { threshold: 0.1 }
-    );
+  //   const observer = new IntersectionObserver(
+  //     ([entry]) => {
+  //       if (entry.isIntersecting) {
+  //         gsap.to(titleElement, {
+  //           opacity: 1,
+  //           scale: 1,
+  //           duration: 0.8,
+  //           ease: 'power2.out',
+  //         });
+  //       }
+  //     },
+  //     { threshold: 0.1 }
+  //   );
 
-    observer.observe(titleElement);
-    return () => observer.disconnect();
-  }, [isMobile]);
+  //   observer.observe(titleElement);
+  //   return () => observer.disconnect();
+  // }, [isMobile]);
 
   // Hand wave animation
   useEffect(() => {
@@ -382,10 +387,26 @@ export const About = () => {
       )}
 
       <div className="text-center z-10">
-        <div ref={titleRef} className="inline-block">
-          <h2 className="text-white text-5xl md:text-6xl gap-3 leading-tight font-extrabold">
-            ABOUT ME
-          </h2>
+        <div
+          ref={titleRef}
+          className="inline-block"
+        ><h1>
+
+          <SplitText
+            text="About Me"
+            className="text-3xl font-semibold text-center md:text-5xl lg:text-7xl "
+            delay={100}
+            duration={0.6}
+            ease="power3.out"
+            splitType="chars"
+            from={{ opacity: 0, y: 40 }}
+            to={{ opacity: 1, y: 0 }}
+            threshold={0.1}
+            rootMargin="-100px"
+            textAlign="center"
+            onLetterAnimationComplete={handleAnimationComplete}
+          />
+        </h1>
         </div>
       </div>
 

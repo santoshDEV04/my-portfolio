@@ -16,6 +16,7 @@ import pyIcon from "../../assets/python.svg";
 import jIcon from "../../assets/java.svg";
 import nextIcon from "../../assets/nextjs.svg";
 import mongoIcon from "../../assets/mongo.svg";
+import SplitText from "../SplitText.jsx";
 
 const SkillsSection = () => {
   const sectionRef = useRef(null);
@@ -345,13 +346,6 @@ const SkillsSection = () => {
     );
   };
 
-  // Mobile-specific section classes
-  const sectionAnimationClasses = isMobile
-    ? "opacity-100 transform-none"
-    : `transform transition-all duration-700 ${
-        isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-      }`;
-
   return (
     <section
       id="skills"
@@ -375,17 +369,21 @@ const SkillsSection = () => {
       <div className="relative max-w-6xl mx-auto space-y-12">
         {/* Header */}
         <div className="text-center space-y-4">
-          <div className={sectionAnimationClasses}>
-            <h2 className="text-4xl sm:text-5xl font-extrabold leading-tight">
-              <span className="text-white font-extrabold leading-tight">
-                SKILLS
-              </span>
-              <span className="text-white"> & </span>
-              <span className="text-white font-extrabold leading-tight">
-                TOOLS
-              </span>
-            </h2>
-          </div>
+          <h1 className="text-3xl font-semibold text-center md:text-5xl lg:text-7xl">
+            <SplitText
+              text="Skills & Tools"
+              className="font-semibold text-center"
+              delay={100}
+              duration={0.6}
+              ease="power3.out"
+              splitType="chars"
+              from={{ opacity: 0, y: 40 }}
+              to={{ opacity: 1, y: 0 }}
+              threshold={0.1}
+              rootMargin="-100px"
+              textAlign="center"
+            />
+          </h1>
           <div
             className={`${
               isMobile

@@ -3,6 +3,7 @@ import emailjs from "emailjs-com";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import InteractiveGlobe from "./InteractiveGlobe.jsx";
+import SplitText from '../SplitText.jsx'
 import {
   Send,
   Mail,
@@ -162,16 +163,25 @@ const ContactSection = () => {
       className="min-h-screen w-full px-6 sm:px-8 py-16 flex flex-col justify-center items-center text-white relative z-1 bg-transparent"
     >
       {/* Heading */}
-      <h2
-        ref={headingRef}
-        className="absolute top-20 text-4xl sm:text-5xl font-extrabold leading-tight text-white"
-      >
-        CONTACT ME
-      </h2>
+      <h1 className="text-3xl font-semibold text-center md:text-5xl lg:text-7xl">
+        <SplitText
+          text="Contact Me"
+          className="font-semibold text-center"
+          delay={100}
+          duration={0.6}
+          ease="power3.out"
+          splitType="chars"
+          from={{ opacity: 0, y: 40 }}
+          to={{ opacity: 1, y: 0 }}
+          threshold={0.1}
+          rootMargin="-100px"
+          textAlign="center"
+        />
+      </h1>
 
       <div
         className={`w-full max-w-6xl mt-36 flex ${
-          isMobile ? "flex-col" : "flex-col-reverse lg:flex-row"
+          isMobile ? 'flex-col' : 'flex-col-reverse lg:flex-row'
         } items-center justify-center gap-12 lg:gap-20`}
       >
         {/* Form */}
@@ -222,13 +232,13 @@ const ContactSection = () => {
             </div>
           </button>
 
-          {status === "success" && (
+          {status === 'success' && (
             <p className="success-message flex items-center gap-2 text-green-400 text-sm mt-3 opacity-0">
               <CheckCircle size={16} /> Your message has been sent!
             </p>
           )}
 
-          {status === "error" && (
+          {status === 'error' && (
             <p className="error-message flex items-center gap-2 text-red-400 text-sm mt-3 opacity-0">
               <AlertCircle size={16} /> Something went wrong. Try again.
             </p>
@@ -242,7 +252,7 @@ const ContactSection = () => {
             className="w-full flex justify-center items-center opacity-0"
           >
             <div className="relative">
-              <InteractiveGlobe/>
+              <InteractiveGlobe />
               <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-4 left-4 w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
                 <div className="absolute bottom-8 right-8 w-1 h-1 bg-pink-400 rounded-full animate-pulse" />
@@ -261,7 +271,9 @@ const ContactSection = () => {
                   <Globe size={48} className="text-purple-400" />
                 </div>
               </div>
-              <h3 className="text-xl font-semibold text-white">Let's Connect</h3>
+              <h3 className="text-xl font-semibold text-white">
+                Let's Connect
+              </h3>
               <p className="text-gray-400 text-sm max-w-xs text-center">
                 Ready to collaborate on your next project? Drop me a message!
               </p>
